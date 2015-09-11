@@ -28,9 +28,6 @@ import io.codetail.animation.SupportAnimator;
 import io.codetail.animation.ViewAnimationUtils;
 import usp.each.si.ach2006.codesport.R;
 import usp.each.si.ach2006.codesport.drawer.fragment.MapFragment;
-import usp.each.si.ach2006.codesport.drawer.navigation.NavigationMain;
-import usp.each.si.ach2006.codesport.drawer.utils.Constant;
-import usp.each.si.ach2006.codesport.drawer.utils.Utils;
 import yalantis.com.sidemenu.interfaces.Resourceble;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 import yalantis.com.sidemenu.model.SlideMenuItem;
@@ -179,6 +176,9 @@ public class NewDrawerActivity extends ActionBarActivity implements ViewAnimator
     public ScreenShotable onSwitch(Resourceble slideMenuItem, ScreenShotable screenShotable, int position) {
         switch (slideMenuItem.getName()) {
             case ContentFragment.CLOSE:
+                return screenShotable;
+            case ContentFragment.BOOK:
+                invite();
                 return screenShotable;
             default:
                 return replaceFragment(screenShotable, position);

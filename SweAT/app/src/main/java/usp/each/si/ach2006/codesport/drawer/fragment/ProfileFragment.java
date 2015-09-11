@@ -102,7 +102,7 @@ public class ProfileFragment extends Fragment {
 
         btnTakePhoto = (BootstrapButton) rootView.findViewById(R.id.btnTakePicture);
         btnTakePhoto.setOnClickListener(lstPhotoOnClickListener);
-        imgvRegisterProfile = (ImageView) rootView.findViewById(R.id.imgvRegisterProfile);
+        imgvRegisterProfile = (ImageView) rootView.findViewById(R.id.imgvProfile);
 
 		try{
             edtFirstName.setText(User.getFirstName());
