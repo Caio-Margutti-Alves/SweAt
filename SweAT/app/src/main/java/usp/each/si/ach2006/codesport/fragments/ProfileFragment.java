@@ -1,14 +1,17 @@
-package usp.each.si.ach2006.codesport.drawer.fragment;
+package usp.each.si.ach2006.codesport.fragments;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,11 +25,14 @@ import android.widget.ImageView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
-import usp.each.si.ach2006.codesport.R;
-import usp.each.si.ach2006.codesport.drawer.utils.Constant;
-import usp.each.si.ach2006.codesport.models.user.User;
+import java.io.InputStream;
 
-public class ProfileFragment extends Fragment {
+import usp.each.si.ach2006.codesport.R;
+import usp.each.si.ach2006.codesport.codeUtils.Util;
+import usp.each.si.ach2006.codesport.models.user.User;
+import yalantis.com.sidemenu.interfaces.ScreenShotable;
+
+public class ProfileFragment extends Fragment implements ScreenShotable{
 
     private Activity activity;
 
@@ -45,7 +51,7 @@ public class ProfileFragment extends Fragment {
 	private static String dob;
 
     private BootstrapButton btnTakePhoto;
-    private ImageView imgvRegisterProfile;
+    private ImageView imgvProfile;
     private static final int ACTION_TAKE_PHOTO = 1;
 
     private View loginFormView;
@@ -60,13 +66,13 @@ public class ProfileFragment extends Fragment {
     private EditText edtEmail;
     private EditText edtRePassword;
 
-	public ProfileFragment newInstance(String text){
-		ProfileFragment mFragment = new ProfileFragment();		
-		Bundle mBundle = new Bundle();
-		mBundle.putString(Constant.TEXT_FRAGMENT, text);
-		mFragment.setArguments(mBundle);
-		return mFragment;
-	}
+    public static ProfileFragment newInstance(String text){
+        ProfileFragment mFragment = new ProfileFragment();
+        Bundle mBundle = new Bundle();
+        mBundle.putString(Util.TEXT_FRAGMENT, text);
+        mFragment.setArguments(mBundle);
+        return mFragment;
+    }
 
     Button.OnClickListener lstPhotoOnClickListener = new Button.OnClickListener() {
         @Override
@@ -84,25 +90,20 @@ public class ProfileFragment extends Fragment {
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
 		View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 		super.onCreate(savedInstanceState);
-
-        edtLogin = (EditText) rootView.findViewById(R.id.login);
-        edtPassword = (EditText) rootView.findViewById(R.id.password);
         edtFirstName = (EditText) rootView.findViewById(R.id.firstName);
         edtLastName = (EditText) rootView.findViewById(R.id.lastName);
         edtEmail = (EditText) rootView.findViewById(R.id.email);
-        edtRePassword = (EditText) rootView.findViewById(R.id.rePassword);
 
         loginFormView = rootView.findViewById(R.id.login_form);
         loginStatusView = rootView.findViewById(R.id.login_status);
 
-        btnRegister = (BootstrapButton) rootView.findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(lstnRegister);
 
-        btnTakePhoto = (BootstrapButton) rootView.findViewById(R.id.btnTakePicture);
         btnTakePhoto.setOnClickListener(lstPhotoOnClickListener);
-        imgvRegisterProfile = (ImageView) rootView.findViewById(R.id.imgvProfile);
+        imgvProfile = (ImageView) rootView.findViewById(R.id.imgvProfile);
 
 		try{
             edtFirstName.setText(User.getFirstName());
@@ -110,6 +111,12 @@ public class ProfileFragment extends Fragment {
 			//edtAge.setText(String.valueOf(User.getAge()));
 			edtEmail.setText(User.getEmail());
 			edtLogin.setText(User.getLogin());
+
+            if(User.getFacebookId()!= null){
+                new LoadProfileImage(imgvProfile).execute(User.getFacebookPictureUrl());
+            }else{
+                new LoadProfileImage(imgvProfile).execute(User.getGooglePlusPictureUrl());
+            }
 			//profilePicture.setProfileId(User.getFacebookId());
 
 			
@@ -291,12 +298,21 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    @Override
+    public void takeScreenShot() {
+
+    }
+
+    @Override
+    public Bitmap getBitmap() {
+        return null;
+    }
+
     public class UpdateUserTask extends AsyncTask<Void, Void, Boolean> {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                //TODO: Update User Profile
-               // User.updateUser(id, login, password, firstName, lastName,email);
+                //User.updateUser(id, login, password, firstName, lastName,email);
             } catch (Exception e) {
                 return false;
             }
@@ -331,5 +347,32 @@ public class ProfileFragment extends Fragment {
         public void onUserUpdated();
     }
 
+    /**
+     * Background Async task to load user profile picture from url
+     * */
+    private class LoadProfileImage extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public LoadProfileImage(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
+    }
 }
 

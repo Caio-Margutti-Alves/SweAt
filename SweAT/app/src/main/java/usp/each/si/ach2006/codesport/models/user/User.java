@@ -1,5 +1,6 @@
 package usp.each.si.ach2006.codesport.models.user;
 
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -15,8 +16,13 @@ public abstract class User {
     private static int age;
 
 
+    //Facebook Stuff
+    private static String facebookPictureUrl = "https://graph.facebook.com/100002560657734/picture?type=large";
     private static String facebookId = "100002560657734"; //Tirar
     private static String mobileToken;
+
+    //Google Plus Stuff
+    private static String googlePlusPictureUrl = "https://lh3.googleusercontent.com/-EH91vYdCng4/AAAAAAAAAAI/AAAAAAAAAMw/7XmDfnMZTGM/s120-c/photo.jpg" ;
 
 
 	public User() {
@@ -31,6 +37,10 @@ public abstract class User {
                 lastName, email, gender, dob);
 
     }
+
+
+    //-----------------------Quey User Facebook--------------------------------//
+
 	
 	//SOMENTE PARA TESTES - RETIRAR NO FINAL
 	public static boolean getUserById(String id) {
@@ -40,13 +50,6 @@ public abstract class User {
     public static boolean getUserByFacebookId(String facebookId) {
         return JsonUser.getUserByFacebookId(facebookId);
     }
-
-    public static boolean getUserByLoginPassword(String login, String password) {
-        return JsonUser.getUserByLoginPassword(login, password);
-
-    }
-
-    //--------------------------------------------------------//
 
     public static String getFacebookId() {
         return facebookId;
@@ -59,6 +62,31 @@ public abstract class User {
     public static String getMobileToken() {
         return mobileToken;
     }
+
+    public static String getFacebookPictureUrl() {
+        return facebookPictureUrl;
+    }
+
+    public static void setFacebookPictureUrl(String facebookPictureUrl) {
+        User.facebookPictureUrl = facebookPictureUrl;
+    }
+
+    //-----------------------Quey User GooglePlus--------------------------------//
+
+    public static boolean getUserByGoogleId(String facebookId) {
+        return JsonUser.getUserByFacebookId(facebookId);
+    }
+
+    public static String getGooglePlusPictureUrl() {
+        return googlePlusPictureUrl;
+    }
+
+    public static void setGooglePlusPictureUrl(String googlePlusPictureUrl) {
+        User.googlePlusPictureUrl = googlePlusPictureUrl;
+    }
+
+//--------------------------------------------------------//
+
 
     public static String getEmail() {
 		return email;
@@ -148,7 +176,6 @@ public abstract class User {
 
         setAge(age);
     }
-
 
 //    public static boolean updateUser(String id, String login, String password,
 //                                  String firstName, String lastName,

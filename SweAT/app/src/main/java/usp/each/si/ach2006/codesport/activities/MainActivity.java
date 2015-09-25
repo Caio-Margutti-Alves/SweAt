@@ -1,4 +1,4 @@
-package usp.each.si.ach2006.codesport.new_drawer;
+package usp.each.si.ach2006.codesport.activities;
 
 import android.content.ComponentName;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,13 +22,21 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.LinearLayout;
 
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.plus.Plus;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import io.codetail.animation.SupportAnimator;
 import io.codetail.animation.ViewAnimationUtils;
 import usp.each.si.ach2006.codesport.R;
-import usp.each.si.ach2006.codesport.drawer.fragment.MapFragment;
+import usp.each.si.ach2006.codesport.codeUtils.Util;
+import usp.each.si.ach2006.codesport.models.user.User;
+import usp.each.si.ach2006.codesport.fragments.MapFragment;
+import usp.each.si.ach2006.codesport.fragments.ProfileFragment;
 import yalantis.com.sidemenu.interfaces.Resourceble;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 import yalantis.com.sidemenu.model.SlideMenuItem;
@@ -37,7 +46,7 @@ import yalantis.com.sidemenu.util.ViewAnimator;
  * Created by caioa_000 on 11/09/2015.
  */
 
-public class NewDrawerActivity extends ActionBarActivity implements ViewAnimator.ViewAnimatorListener {
+public class MainActivity extends ActionBarActivity implements ViewAnimator.ViewAnimatorListener {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private List<SlideMenuItem> list = new ArrayList<>();
@@ -45,12 +54,14 @@ public class NewDrawerActivity extends ActionBarActivity implements ViewAnimator
     private ViewAnimator viewAnimator;
     private LinearLayout linearLayout;
 
+    private BitmapDrawable profilePicture;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        contentFragment = new MapFragment().newInstance("JUST A TEST!  >>>>REMOVE<<<<");
+        contentFragment = new MapFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, contentFragment)
                 .commit();
@@ -64,28 +75,21 @@ public class NewDrawerActivity extends ActionBarActivity implements ViewAnimator
             }
         });
 
-
         setActionBar();
         createMenuList();
         viewAnimator = new ViewAnimator<>(this, list, contentFragment, drawerLayout, this);
     }
 
     private void createMenuList() {
-        SlideMenuItem menuItem0 = new SlideMenuItem(ContentFragment.CLOSE, R.drawable.icn_close);
+        SlideMenuItem menuItem0 = new SlideMenuItem(Util.CLOSE, R.drawable.icn_close);
         list.add(menuItem0);
-        SlideMenuItem menuItem = new SlideMenuItem(ContentFragment.BUILDING, R.drawable.icn_1);
+        SlideMenuItem menuItem1 = new SlideMenuItem(Util.PROFILE, R.id.google_profile_picture);
+        list.add(menuItem1);
+        SlideMenuItem menuItem = new SlideMenuItem(Util.BUILDING, R.drawable.icn_1);
         list.add(menuItem);
-        SlideMenuItem menuItem2 = new SlideMenuItem(ContentFragment.BOOK, R.drawable.icn_2);
+        SlideMenuItem menuItem2 = new SlideMenuItem(Util.BOOK, R.drawable.icn_2);
         list.add(menuItem2);
-        SlideMenuItem menuItem3 = new SlideMenuItem(ContentFragment.PAINT, R.drawable.icn_3);
-        list.add(menuItem3);
-        SlideMenuItem menuItem4 = new SlideMenuItem(ContentFragment.CASE, R.drawable.icn_4);
-        list.add(menuItem4);
-        SlideMenuItem menuItem5 = new SlideMenuItem(ContentFragment.SHOP, R.drawable.icn_5);
-        list.add(menuItem5);
-        SlideMenuItem menuItem6 = new SlideMenuItem(ContentFragment.PARTY, R.drawable.icn_6);
-        list.add(menuItem6);
-        SlideMenuItem menuItem7 = new SlideMenuItem(ContentFragment.MOVIE, R.drawable.icn_7);
+        SlideMenuItem menuItem7 = new SlideMenuItem(Util.MOVIE, R.drawable.icn_7);
         list.add(menuItem7);
     }
 
@@ -157,33 +161,37 @@ public class NewDrawerActivity extends ActionBarActivity implements ViewAnimator
         }
     }
 
-    private ScreenShotable replaceFragment(ScreenShotable screenShotable, int topPosition) {
-        //this.res = this.res == R.drawable.content_music ? R.drawable.content_films : R.drawable.content_music;
+    @Override
+    public ScreenShotable onSwitch(Resourceble slideMenuItem, ScreenShotable fragment, int position) {
         View view = findViewById(R.id.content_frame);
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
-        SupportAnimator animator = ViewAnimationUtils.createCircularReveal(view, 0, topPosition, 0, finalRadius);
+        SupportAnimator animator = ViewAnimationUtils.createCircularReveal(view, 0, position, 0, finalRadius);
         animator.setInterpolator(new AccelerateInterpolator());
         animator.setDuration(ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION);
 
-        findViewById(R.id.content_overlay).setBackgroundDrawable(new BitmapDrawable(getResources(), screenShotable.getBitmap()));
+        findViewById(R.id.content_overlay).setBackgroundDrawable(new BitmapDrawable(getResources(), fragment.getBitmap()));
         animator.start();
-        ContentFragment contentFragment = ContentFragment.newInstance(/*this.res*/ 0);
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();
-        return contentFragment;
-    }
 
-    @Override
-    public ScreenShotable onSwitch(Resourceble slideMenuItem, ScreenShotable screenShotable, int position) {
+        ScreenShotable contentFragment;
+
         switch (slideMenuItem.getName()) {
-            case ContentFragment.CLOSE:
-                return screenShotable;
-            case ContentFragment.BOOK:
+            case Util.CLOSE:
+                return fragment;
+            case Util.BOOK:
                 invite();
-                return screenShotable;
+                return fragment;
+            case Util.PROFILE:
+                contentFragment = ProfileFragment.newInstance("a");
+                break;
+            case Util.MOVIE:
+                logout();
             default:
-                return replaceFragment(screenShotable, position);
+                contentFragment = MapFragment.newInstance("a");
         }
-    }
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, (Fragment) contentFragment).commit();
+        return contentFragment;
+      }
 
     @Override
     public void disableHomeButton() {
@@ -211,14 +219,14 @@ public class NewDrawerActivity extends ActionBarActivity implements ViewAnimator
         emailIntent.setAction(Intent.ACTION_SEND);
 
         emailIntent.putExtra(Intent.EXTRA_TEXT, resources.getString(R.string.invite_message));
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT,resources.getString(R.string.subject));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, resources.getString(R.string.subject));
         emailIntent.setType("message/rfc822");
 
         PackageManager pm = getPackageManager();
         Intent sendIntent = new Intent(Intent.ACTION_SEND);
         sendIntent.setType("text/plain");
 
-        Intent openInChooser = Intent.createChooser(emailIntent,resources.getString(R.string.title_activity_invite));
+        Intent openInChooser = Intent.createChooser(emailIntent, resources.getString(R.string.title_activity_invite));
 
         List<ResolveInfo> resInfo = pm.queryIntentActivities(sendIntent, 0);
         List<LabeledIntent> intentList = new ArrayList<LabeledIntent>();
@@ -233,7 +241,7 @@ public class NewDrawerActivity extends ActionBarActivity implements ViewAnimator
                     || packageName.contains("mms")
                     || packageName.contains("android.gm")) {
                 Intent intent = new Intent();
-                intent.setComponent(new ComponentName(packageName,ri.activityInfo.name));
+                intent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
                 intent.setAction(Intent.ACTION_SEND);
                 intent.setType("text/plain");
                 if (packageName.contains("twitter")) {
@@ -244,7 +252,7 @@ public class NewDrawerActivity extends ActionBarActivity implements ViewAnimator
                     intent.putExtra(Intent.EXTRA_TEXT, resources.getString(R.string.invite_message));
                 } else if (packageName.contains("android.gm")) {
                     intent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(resources.getString(R.string.invite_message)));
-                    intent.putExtra(Intent.EXTRA_SUBJECT,resources.getString(R.string.subject));
+                    intent.putExtra(Intent.EXTRA_SUBJECT, resources.getString(R.string.subject));
                     intent.setType("message/rfc822");
                 }
 
@@ -260,4 +268,27 @@ public class NewDrawerActivity extends ActionBarActivity implements ViewAnimator
         startActivity(openInChooser);
     }
 
+    protected void logout(){
+        try{
+            if(User.getFacebookId()!=null) {
+                FacebookSdk.sdkInitialize(getApplicationContext());
+                LoginManager.getInstance().logOut();
+            }else{
+                GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(this)
+                        .addApi(Plus.API)
+                        .addScope(Plus.SCOPE_PLUS_LOGIN).build();
+                if (mGoogleApiClient.isConnected()) {
+                    Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+                    mGoogleApiClient.disconnect();
+                }
+
+            }
+            Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        catch(Exception e){
+               //Todo
+        }
+    }
 }

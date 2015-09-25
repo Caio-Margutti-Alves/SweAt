@@ -29,9 +29,7 @@ import com.google.android.gms.plus.Plus;
 import java.util.Arrays;
 
 import usp.each.si.ach2006.codesport.R;
-import usp.each.si.ach2006.codesport.drawer.navigation.NavigationMain;
 import usp.each.si.ach2006.codesport.fragments.FacebookLoginFragment;
-import usp.each.si.ach2006.codesport.new_drawer.NewDrawerActivity;
 
 public class LoginActivity extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks,
 		GoogleApiClient.OnConnectionFailedListener{
@@ -165,7 +163,7 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
     }
 
 	protected void successfulLogin(){
-		Intent intent = new Intent(getApplicationContext(),NewDrawerActivity.class);
+		Intent intent = new Intent(getApplicationContext(),MainActivity.class);
 		startActivity(intent);
 		finish();
 	}

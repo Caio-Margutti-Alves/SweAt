@@ -34,7 +34,7 @@
 
         <!-- Splash screen -->
         <activity
-            android:name=".activities.SplashScreen"
+            android:name=".activities.SplashScreenActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar" >
@@ -58,17 +58,9 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:label="@string/app_name" />
 
-        <!-- Main activity -->
-
-        <!-- NavigationMain activity -->
-        <activity
-            android:name=".drawer.navigation.NavigationMain"
-            android:label="@string/app_name" >
-        </activity>
-
         <!-- NewDrawer activity -->
         <activity
-            android:name=".new_drawer.NewDrawerActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name" >
         </activity>
 

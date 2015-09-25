@@ -1,37 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.google.android.gms.maps.MapView
-        xmlns:map="http://schemas.android.com/apk/res-auto"
+
         android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        />
 
     <ImageButton
         android:minHeight="?android:attr/listPreferredItemHeight"
+        android:minWidth="?android:attr/listPreferredItemHeight"
         android:id="@+id/imgb_mark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@android:color/transparent"
         android:layout_centerHorizontal="true"
         android:layout_alignParentRight="true"
+
         android:src="@drawable/map_marker" />
 
     <ImageButton
         android:minHeight="?android:attr/listPreferredItemHeight"
+        android:minWidth="?android:attr/listPreferredItemHeight"
         android:id="@+id/imgb_maps_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_toLeftOf="@id/imgb_mark"
+        android:background="@android:color/transparent"
         android:src="@drawable/map" />
 
     <ImageButton
         android:minHeight="?android:attr/listPreferredItemHeight"
+        android:minWidth="?android:attr/listPreferredItemHeight"
+        android:background="@android:color/transparent"
         android:id="@+id/imgb_trail_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,6 +51,7 @@
 
     <ProgressBar
         android:id="@+id/progress_bar"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" />

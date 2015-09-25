@@ -91,7 +91,7 @@
     <string name="prompt_last_name">Last Name</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_age">Age</string>
-    <string name="prompt_re_password">Retype your password</string>
+    <string name="prompt_gender">Male, Female or free to be yourself?</string>
 
 
     <!-- Camera -->

@@ -1,4 +1,4 @@
-package usp.each.si.ach2006.codesport.drawer.fragment;
+package usp.each.si.ach2006.codesport.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -28,6 +28,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -40,8 +41,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import usp.each.si.ach2006.codesport.R;
+import usp.each.si.ach2006.codesport.codeUtils.Util;
 import usp.each.si.ach2006.codesport.dialog.ArrayAdapterWithIcon;
-import usp.each.si.ach2006.codesport.drawer.utils.Constant;
 import usp.each.si.ach2006.codesport.gps.Constants;
 import usp.each.si.ach2006.codesport.gps.FetchAddressIntentService;
 import usp.each.si.ach2006.codesport.trail.TrailList;
@@ -97,47 +98,47 @@ public class MapFragment extends Fragment implements ScreenShotable,
 
 
                     switch (which) {
-                        case Constant.MENU_VIEW_POINT:
+                        case Util.MENU_VIEW_POINT:
                             marker = mapView.getMap().addMarker(new MarkerOptions()
                                     .position(new LatLng(lat, lng))
                                     .title(String.valueOf(options[which]))
                                     .snippet("Population: 4,137,400")
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_map_marker)));
                             break;
-                        case Constant.MENU_ANIMAL:
-                            marker = mapView.getMap().addMarker(new MarkerOptions()
-                                .position(new LatLng(0, 0))
-                                .title(String.valueOf(options[which]))
-                                .snippet("Population: 4,137,400")
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.animal_sign)));
-                            break;
-                        case Constant.MENU_WARNING:
+                        case Util.MENU_ANIMAL:
                             marker = mapView.getMap().addMarker(new MarkerOptions()
                                     .position(new LatLng(0, 0))
-                                            .title(String.valueOf(options[which]))
-                                            .snippet("Population: 4,137,400")
-                                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.sign_warning)));
+                                    .title(String.valueOf(options[which]))
+                                    .snippet("Population: 4,137,400")
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.animal_sign)));
                             break;
-                        case Constant.MENU_CLOSURE:
+                        case Util.MENU_WARNING:
                             marker = mapView.getMap().addMarker(new MarkerOptions()
                                     .position(new LatLng(0, 0))
-                                            .title(String.valueOf(options[which]))
-                                            .snippet("Population: 4,137,400")
-                                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.cone)));
+                                    .title(String.valueOf(options[which]))
+                                    .snippet("Population: 4,137,400")
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.sign_warning)));
                             break;
-                        case Constant.MENU_EMERGENCY:
+                        case Util.MENU_CLOSURE:
                             marker = mapView.getMap().addMarker(new MarkerOptions()
                                     .position(new LatLng(0, 0))
-                                            .title(String.valueOf(options[which]))
-                                            .snippet("Population: 4,137,400")
-                                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.skull)));
+                                    .title(String.valueOf(options[which]))
+                                    .snippet("Population: 4,137,400")
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.cone)));
                             break;
-                        case Constant.MENU_QUESTION:
+                        case Util.MENU_EMERGENCY:
                             marker = mapView.getMap().addMarker(new MarkerOptions()
                                     .position(new LatLng(0, 0))
-                                            .title(String.valueOf(options[which]))
-                                            .snippet("Population: 4,137,400")
-                                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.bubble)));
+                                    .title(String.valueOf(options[which]))
+                                    .snippet("Population: 4,137,400")
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.skull)));
+                            break;
+                        case Util.MENU_QUESTION:
+                            marker = mapView.getMap().addMarker(new MarkerOptions()
+                                    .position(new LatLng(0, 0))
+                                    .title(String.valueOf(options[which]))
+                                    .snippet("Population: 4,137,400")
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.bubble)));
                             break;
                     }
                 }
@@ -157,16 +158,16 @@ public class MapFragment extends Fragment implements ScreenShotable,
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which) {
-                        case Constant.MENU_NORMAL:
+                        case Util.MENU_NORMAL:
                             mapView.getMap().setMapType(GoogleMap.MAP_TYPE_NORMAL);
                             break;
-                        case Constant.MENU_HYBRID:
+                        case Util.MENU_HYBRID:
                             mapView.getMap().setMapType(GoogleMap.MAP_TYPE_HYBRID);
                             break;
-                        case Constant.MENU_SATELLITE:
+                        case Util.MENU_SATELLITE:
                             mapView.getMap().setMapType(GoogleMap.MAP_TYPE_SATELLITE);
                             break;
-                        case Constant.MENU_TERRAIN:
+                        case Util.MENU_TERRAIN:
                             mapView.getMap().setMapType(GoogleMap.MAP_TYPE_TERRAIN);
                             break;
                     }
@@ -187,19 +188,19 @@ public class MapFragment extends Fragment implements ScreenShotable,
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which) {
-                        case Constant.MENU_0:
+                        case Util.MENU_0:
                             setUpTrail(null,0);
                             break;
-                        case Constant.MENU_1:
+                        case Util.MENU_1:
                             setUpTrail(null,1);
                             break;
-                        case Constant.MENU_2:
+                        case Util.MENU_2:
                             setUpTrail(null,2);
                             break;
-                        case Constant.MENU_3:
+                        case Util.MENU_3:
                             setUpTrail(null,3);
                             break;
-                        case Constant.MENU_4:
+                        case Util.MENU_4:
                             setUpTrail(null,4);
                             break;
                     }
@@ -209,10 +210,10 @@ public class MapFragment extends Fragment implements ScreenShotable,
         }
     };
 
-    public MapFragment newInstance(String text){
+    public static MapFragment newInstance(String text){
         MapFragment mFragment = new MapFragment();
         Bundle mBundle = new Bundle();
-        mBundle.putString(Constant.TEXT_FRAGMENT, text);
+        mBundle.putString(Util.TEXT_FRAGMENT, text);
         mFragment.setArguments(mBundle);
         return mFragment;
     }
@@ -297,11 +298,10 @@ public class MapFragment extends Fragment implements ScreenShotable,
 
         // Gets the MapView from the XML layout and creates it
         mapView = (MapView) view.findViewById(R.id.map);
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-
         mapView.onCreate(savedInstanceState);
         mapView.getMap().setMyLocationEnabled(true);
-        mapView.getMap().getUiSettings().setCompassEnabled(true);
+
+        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
         imgb_mark = (ImageButton) view.findViewById(R.id.imgb_mark);
         imgb_mark.setOnClickListener(lstnMark);
@@ -323,6 +323,8 @@ public class MapFragment extends Fragment implements ScreenShotable,
         buildGoogleApiClient();
 
         mapView.getMap().setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+        mapView.getMap().getUiSettings().setCompassEnabled(true);
+
         MapsInitializer.initialize(getActivity());
 
         TrailList trails = new TrailList();

@@ -1,8 +1,5 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
-    xmlns:fontawesometext="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -64,27 +61,6 @@
                     style="?android:attr/buttonBarStyle"
                     android:layout_marginBottom="4dp" >
 
-                    <com.beardedhen.androidbootstrap.BootstrapButton
-                        android:id="@+id/btnUploadPhoto"
-                        android:layout_width="0dp"
-                        android:minHeight="?android:attr/listPreferredItemHeight"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.5"
-                        android:text="@string/btnUpload"
-                        style="?android:attr/buttonBarButtonStyle"
-                        bootstrap:bb_roundedCorners="true"
-                        bootstrap:bb_type="success" />
-
-                    <com.beardedhen.androidbootstrap.BootstrapButton
-                        android:id="@+id/btnTakePicture"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.5"
-                        android:minHeight="?android:attr/listPreferredItemHeight"
-                        android:text="@string/btnPhoto"
-                        style="?android:attr/buttonBarButtonStyle"
-                        bootstrap:bb_roundedCorners="true"
-                        bootstrap:bb_type="success" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -93,109 +69,65 @@
                     android:layout_weight="0.1"
                     android:orientation="horizontal" >
 
-                    <com.beardedhen.androidbootstrap.BootstrapEditText
+                    <com.beardedhen.androidbootstrap.FontAwesomeText
                         android:id="@+id/firstName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="@string/prompt_first_name"
-                        android:inputType="textPersonName"
+                        android:gravity="center_vertical"
+                        android:textSize="24sp"
+                        android:text="@string/prompt_first_name"
                         android:minHeight="?android:attr/listPreferredItemHeight"
                         android:layout_margin="4dp"
-                        android:layout_weight="0.5"
-                        bootstrap:be_roundedCorners="true"
-                        bootstrap:be_state="success" />
+                        android:layout_weight="0.5" />
 
-                    <com.beardedhen.androidbootstrap.BootstrapEditText
+                    <com.beardedhen.androidbootstrap.FontAwesomeText
                         android:id="@+id/lastName"
                         android:layout_width="match_parent"
+                        android:text="@string/prompt_last_name"
+                        android:gravity="center_vertical|end"
                         android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="@string/prompt_last_name"
-                        android:inputType="textPersonName"
                         android:minHeight="?android:attr/listPreferredItemHeight"
                         android:layout_margin="4dp"
                         android:layout_weight="0.5"
-                        bootstrap:be_roundedCorners="true"
-                        bootstrap:be_state="success"/>
+                        android:textSize="24sp"/>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="0.4"
                     android:orientation="vertical" >
 
-                    <com.beardedhen.androidbootstrap.BootstrapEditText
+                    <com.beardedhen.androidbootstrap.FontAwesomeText
                         android:id="@+id/email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/prompt_email"
-                        android:inputType="textEmailAddress"
-                        android:maxLines="1"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:textSize="20sp"
+                        android:text="@string/prompt_email"
                         android:minHeight="?android:attr/listPreferredItemHeight"
-                        android:singleLine="true"
-                        android:layout_margin="4dp"
-                        bootstrap:be_roundedCorners="true"
-                        bootstrap:be_state="success"/>
+                        android:singleLine="true" />
 
-                    <com.beardedhen.androidbootstrap.BootstrapEditText
-                        android:id="@+id/login"
+                    <com.beardedhen.androidbootstrap.FontAwesomeText
+                        android:id="@+id/edtAge"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/prompt_login"
-                        android:inputType="textEmailAddress"
-                        android:maxLines="1"
+                        android:textSize="20sp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="@string/prompt_age"
                         android:minHeight="?android:attr/listPreferredItemHeight"
-                        android:singleLine="true"
-                        android:layout_margin="4dp"
-                        bootstrap:be_roundedCorners="true"
-                        bootstrap:be_state="success"/>
+                        android:singleLine="true" />
 
-                    <com.beardedhen.androidbootstrap.BootstrapEditText
-                        android:id="@+id/password"
+                    <com.beardedhen.androidbootstrap.FontAwesomeText
+                        android:id="@+id/edtGender"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/prompt_password"
-                        android:imeActionId="@+id/login"
-                        android:imeActionLabel="@string/action_sign_in_short"
-                        android:imeOptions="actionUnspecified"
-                        android:inputType="textPassword"
-                        android:maxLines="1"
+                        android:textSize="20sp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="@string/prompt_gender"
                         android:minHeight="?android:attr/listPreferredItemHeight"
-                        android:singleLine="true"
-                        android:layout_margin="4dp"
-                        bootstrap:be_roundedCorners="true"
-                        bootstrap:be_state="success"/>
+                        android:singleLine="true" />
 
-                    <com.beardedhen.androidbootstrap.BootstrapEditText
-                        android:id="@+id/rePassword"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/prompt_re_password"
-                        android:imeActionId="@+id/login"
-                        android:imeActionLabel="@string/action_sign_in_short"
-                        android:imeOptions="actionUnspecified"
-                        android:inputType="textPassword"
-                        android:maxLines="1"
-                        android:minHeight="?android:attr/listPreferredItemHeight"
-                        android:singleLine="true"
-                        android:layout_margin="4dp"
-                        bootstrap:be_roundedCorners="true"
-                        bootstrap:be_state="success"/>
-
-                    <com.beardedhen.androidbootstrap.BootstrapButton
-                        android:id="@+id/btnRegister"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="16dp"
-                        android:minHeight="?android:attr/listPreferredItemHeight"
-                        style="?android:attr/buttonBarButtonStyle"
-                        android:paddingLeft="32dp"
-                        android:paddingRight="32dp"
-                        android:text="@string/update"
-                        bootstrap:bb_roundedCorners="true"
-                        bootstrap:bb_type="success"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
