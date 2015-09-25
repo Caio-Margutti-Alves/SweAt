@@ -1,30 +1,12 @@
 package usp.each.si.ach2006.codesport.activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Movie;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
-
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 
 import usp.each.si.ach2006.codesport.R;
-import usp.each.si.ach2006.codesport.codeUtils.GifView;
 
 
 /**

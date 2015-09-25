@@ -1,6 +1,5 @@
 package usp.each.si.ach2006.codesport.models.user;
 
-import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 

@@ -1,10 +1,8 @@
 package usp.each.si.ach2006.codesport.fragments;
 
-import usp.each.si.ach2006.codesport.models.user.User;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -18,6 +16,8 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
 import org.json.JSONObject;
+
+import usp.each.si.ach2006.codesport.models.user.User;
 
 public class FacebookLoginFragment extends Fragment {
 
