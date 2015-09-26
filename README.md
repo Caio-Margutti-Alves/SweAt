@@ -3,6 +3,10 @@ Android app for finding nearby sport activities and sharing sports resources.
 
 TODO:
 
+NEXT PRESENTATION:
+
+- Continuous Integration Server Tests using Circle.yml file
+
 Features:
 
 1. Map
@@ -26,9 +30,11 @@ Description:
 3.3 User Likes
 
 UI:
+
 - Stylized pins for each sport
 - App colors
 
 Monetization:
+
 - Ads based on user likes on Facebook and G+
 - Activities priorizaiton on the map
