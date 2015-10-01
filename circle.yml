@@ -1,7 +1,6 @@
 machine:
   environment:
     ANDROID_HOME: /home/ubuntu/android
-    GRADLE_OPTS: -Xmx512m -XX:MaxPermSize=512m
 
 dependencies:
   cache_directories:
