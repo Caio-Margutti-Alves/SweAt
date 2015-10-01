@@ -1,11 +1,3 @@
-general:
-    artifacts:
-        - /home/ubuntu/SweAT/app/build/outputs/apk/
-
-machine:
-    environment:
-        ANDROID_HOME: /usr/local/android-sdk-linux
-
 test:
   override:
     # start the emulator
