@@ -4,7 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import usp.each.si.ach2006.codesport.codeUtils.Util;
-import usp.each.si.ach2006.codesport.http.HttpUtil;
+//import usp.each.si.ach2006.codesport.http.HttpUtil;
 
 public class JsonUser {
 
@@ -23,7 +23,7 @@ public class JsonUser {
 
     private static final String TAG_FACEBOOK_ID = "facebook";
     private static final String TAG_MOBILE_TOKEN = "mobileToken";
-	
+	/*
 	//SOMENTE TESTE - NÃO DEIXAR NO FINAL
 	public static boolean getUserById(String id) {
 		HttpUtil client = new HttpUtil();
@@ -163,5 +163,5 @@ public class JsonUser {
         System.out.println(client.getResponse());
         return true;
         //parseJsonUser(client.getResponse());
-    }
+    }*/
 }

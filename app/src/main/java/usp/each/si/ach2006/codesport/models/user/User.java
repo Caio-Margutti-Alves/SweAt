@@ -28,27 +28,26 @@ public abstract class User {
 
 	}
 
-    public static boolean newUser(String facebookId, String login, String password,
+    /*public static boolean newUser(String facebookId, String login, String password,
                                   String mobileToken, String firstName, String lastName,
                                   String email, String gender, String dob) {
 
-        return JsonUser.newUser(facebookId, login, password, mobileToken, firstName,
-                lastName, email, gender, dob);
+        //return JsonUser.newUser(facebookId, login, password, mobileToken, firstName,
+         //       lastName, email, gender, dob);
 
-    }
-
+    }*/
 
     //-----------------------Quey User Facebook--------------------------------//
 
 	
 	//SOMENTE PARA TESTES - RETIRAR NO FINAL
-	public static boolean getUserById(String id) {
+	/*public static boolean getUserById(String id) {
 		return JsonUser.getUserById(id);
 	}
 
     public static boolean getUserByFacebookId(String facebookId) {
         return JsonUser.getUserByFacebookId(facebookId);
-    }
+    }*/
 
     public static String getFacebookId() {
         return facebookId;
@@ -72,9 +71,9 @@ public abstract class User {
 
     //-----------------------Quey User GooglePlus--------------------------------//
 
-    public static boolean getUserByGoogleId(String facebookId) {
+    /*public static boolean getUserByGoogleId(String facebookId) {
         return JsonUser.getUserByFacebookId(facebookId);
-    }
+    }*/
 
     public static String getGooglePlusPictureUrl() {
         return googlePlusPictureUrl;

@@ -89,11 +89,11 @@ public class FacebookLoginFragment extends Fragment {
 			String firstName, String lastName, String email, String gender,
 			String dob) {
 
-		if(User.newUser(facebookId, login, password, mobileToken, firstName, lastName, email,
+		/*if(User.newUser(facebookId, login, password, mobileToken, firstName, lastName, email,
 				String.valueOf(gender), dob)){
 		
 			User.getUserByFacebookId(facebookId);
-		}
+		}*/
 	}
 
     public void facebookUserQueryData(){
