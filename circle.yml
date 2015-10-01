@@ -1,5 +1,17 @@
-test:
-  override:
+general:
+    artifacts:
+        - /home/ubuntu/your-app-name/app/build/outputs/apk/
+
+machine:
+    environment:
+        ANDROID_HOME: /usr/local/android-sdk-linux
+
+dependencies:
+    override:
+        - echo y | android update sdk --no-ui --all --filter tools,platform-tools,build-tools-21.1.2,android-21,extra-google-m2repository,extra-google-google_play_services,extra-android-support
+        - ANDROID_HOME=/usr/local/android-sdk-linux ./gradlew dependencies
+
+override:
     # start the emulator
     - emulator -avd circleci-android21 -no-audio -no-window:
         background: true
@@ -7,11 +19,11 @@ test:
     # wait for it to have booted
     - circle-android wait-for-boot
     # run tests  against the emulator.
-    - .SweAT/gradlew connectedAndroidTest
+    - ./gradlew connectedAndroidTest
     # copy the build outputs to artifacts
-    - cp -r SweAT/build/outputs $CIRCLE_ARTIFACTS
+    - cp -r /build/outputs $CIRCLE_ARTIFACTS
     # copy the test results to the test results directory.
-    - cp -r SweAT/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
+    - cp -r /build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
 
 deployment:
   staging:
