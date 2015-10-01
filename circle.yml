@@ -3,6 +3,7 @@ machine:
     ANDROID_HOME: /home/ubuntu/android
     GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
 
+
 dependencies:
   cache_directories:
     - ~/.android
