@@ -12,3 +12,9 @@ test:
     - cp -r SweAT/build/outputs $CIRCLE_ARTIFACTS
     # copy the test results to the test results directory.
     - cp -r SweAT/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
+
+deployment:
+  staging:
+    branch: master
+    heroku:
+      appname: sweat-app
