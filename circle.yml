@@ -1,6 +1,14 @@
 machine:
   environment:
     ANDROID_HOME: /home/ubuntu/android
+    GRADLE_OPTS: -Xmx512m -XX:MaxPermSize=512m
+
+dependencies:
+  cache_directories:
+    - ~/.android
+    - ~/android
+  override:
+    - sh ./install-dependencies.sh
 
 test:
   override:
