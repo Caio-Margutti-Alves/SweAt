@@ -1,6 +1,6 @@
 general:
     artifacts:
-        - /home/ubuntu/your-app-name/app/build/outputs/apk/
+        - /home/ubuntu/SweAT/app/build/outputs/apk/
 
 machine:
     environment:
@@ -26,7 +26,7 @@ override:
     - cp -r /build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
 
 deployment:
-  staging:
-    branch: master
-    heroku:
-      appname: sweat-app
+    staging:
+        branch: master
+        heroku:
+            appname: sweat-app
