@@ -8,4 +8,4 @@ android:
     - android-21
 
 
-script: ./gradlew build
+script: sudo ./gradlew build
