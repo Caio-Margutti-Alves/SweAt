@@ -162,7 +162,7 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
     }
 
 	protected void successfulLogin(){
-		Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+		Intent intent = new Intent(getApplicationContext(),AdActivity.class);
 		startActivity(intent);
 		finish();
 	}

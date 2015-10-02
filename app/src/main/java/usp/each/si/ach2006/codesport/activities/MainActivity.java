@@ -273,6 +273,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
             if(User.getFacebookId()!=null) {
                 FacebookSdk.sdkInitialize(getApplicationContext());
                 LoginManager.getInstance().logOut();
+                System.out.println("FACEBOOK");
             }else{
                 GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(this)
                         .addApi(Plus.API)
@@ -281,6 +282,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
                     Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
                     mGoogleApiClient.disconnect();
                 }
+                System.out.println("GOOGLE");
 
             }
             Intent intent = new Intent(getApplicationContext(),LoginActivity.class);

@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.FontAwesomeText;
 
 import java.io.InputStream;
 
@@ -35,8 +36,6 @@ import yalantis.com.sidemenu.interfaces.ScreenShotable;
 public class ProfileFragment extends Fragment implements ScreenShotable{
 
     private Activity activity;
-
-    private UpdateUserTask registerTask = null;
 
     private static String id;
 	private static String firstName;
@@ -50,21 +49,15 @@ public class ProfileFragment extends Fragment implements ScreenShotable{
 	private static String email;
 	private static String dob;
 
-    private BootstrapButton btnTakePhoto;
     private ImageView imgvProfile;
     private static final int ACTION_TAKE_PHOTO = 1;
 
     private View loginFormView;
     private View loginStatusView;
 
-    private BootstrapButton btnRegister;
-
-    private EditText edtLogin;
-    private EditText edtPassword;
-    private EditText edtFirstName;
-    private EditText edtLastName;
-    private EditText edtEmail;
-    private EditText edtRePassword;
+    private FontAwesomeText edtFirstName;
+    private FontAwesomeText edtLastName;
+    private FontAwesomeText edtEmail;
 
     public static ProfileFragment newInstance(String text){
         ProfileFragment mFragment = new ProfileFragment();
@@ -73,36 +66,20 @@ public class ProfileFragment extends Fragment implements ScreenShotable{
         mFragment.setArguments(mBundle);
         return mFragment;
     }
-
-    Button.OnClickListener lstPhotoOnClickListener = new Button.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-        }
-    };
-
-    Button.OnClickListener lstnRegister = new Button.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            attemptUpdate();
-        }
-    };
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
 		View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 		super.onCreate(savedInstanceState);
-        edtFirstName = (EditText) rootView.findViewById(R.id.firstName);
-        edtLastName = (EditText) rootView.findViewById(R.id.lastName);
-        edtEmail = (EditText) rootView.findViewById(R.id.email);
+        edtFirstName = (FontAwesomeText) rootView.findViewById(R.id.firstName);
+        edtLastName = (FontAwesomeText) rootView.findViewById(R.id.lastName);
+        edtEmail = (FontAwesomeText) rootView.findViewById(R.id.email);
 
         loginFormView = rootView.findViewById(R.id.login_form);
         loginStatusView = rootView.findViewById(R.id.login_status);
 
-        btnRegister.setOnClickListener(lstnRegister);
 
-        btnTakePhoto.setOnClickListener(lstPhotoOnClickListener);
         imgvProfile = (ImageView) rootView.findViewById(R.id.imgvProfile);
 
 		try{
@@ -110,7 +87,6 @@ public class ProfileFragment extends Fragment implements ScreenShotable{
 			edtLastName.setText(User.getLastName());
 			//edtAge.setText(String.valueOf(User.getAge()));
 			edtEmail.setText(User.getEmail());
-			edtLogin.setText(User.getLogin());
 
             if(User.getFacebookId()!= null){
                 new LoadProfileImage(imgvProfile).execute(User.getFacebookPictureUrl());
@@ -125,7 +101,6 @@ public class ProfileFragment extends Fragment implements ScreenShotable{
 			edtLastName.setText("Name");
 			//edtAge.setText("Default Age");
 			edtEmail.setText("Default Email");
-			edtLogin.setText("Default Login");
 			//profilePicture.setProfileId(User.getFacebookId());
 		}
 		
@@ -160,102 +135,6 @@ public class ProfileFragment extends Fragment implements ScreenShotable{
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
-
-    public void attemptUpdate() {
-        if (registerTask != null) {
-            return;
-        }
-
-        // Reset errors.
-        edtFirstName.setError(null);
-        edtLastName.setError(null);
-        edtLogin.setError(null);
-        edtPassword.setError(null);
-        edtEmail.setError(null);
-        edtRePassword.setError(null);
-
-        // Store values at the time of the login attempt.
-        id = User.getId();
-        firstName = edtFirstName.getText().toString();
-        lastName = edtLastName.getText().toString();
-        email = edtEmail.getText().toString();
-        login = edtLogin.getText().toString();
-        password = edtPassword.getText().toString();
-        rePassword = edtRePassword.getText().toString();
-
-        boolean cancel = false;
-        View focusView = null;
-
-        // Check for a valid password.
-        if (TextUtils.isEmpty(password)) {
-            edtPassword.setError(getString(R.string.error_field_required));
-            focusView = edtPassword;
-            cancel = true;
-        } else if (password.length() < 8) {
-            edtPassword.setError(getString(R.string.error_invalid_password));
-            focusView = edtPassword;
-            cancel = true;
-        }
-
-        // Check for a valid rePassword.
-        if (TextUtils.isEmpty(rePassword)) {
-            edtRePassword.setError(getString(R.string.error_field_required));
-            focusView = edtRePassword;
-            cancel = true;
-        } else if (!password.equals(rePassword)) {
-            edtRePassword.setError(getString(R.string.error_invalid_repassword));
-            focusView = edtRePassword;
-            cancel = true;
-        }
-
-        // Check for a valid login.
-        if (TextUtils.isEmpty(login)) {
-            edtLogin.setError(getString(R.string.error_field_required));
-            focusView = edtLogin;
-            cancel = true;
-        } else if (login.length() < 6) {
-            edtLogin.setError(getString(R.string.error_invalid_login));
-            focusView = edtLogin;
-            cancel = true;
-        }
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            edtEmail.setError(getString(R.string.error_field_required));
-            focusView = edtEmail;
-            cancel = true;
-        } else if (!email.contains("@")) {
-            edtEmail.setError(getString(R.string.error_invalid_email));
-            focusView = edtEmail;
-            cancel = true;
-        }
-
-        // Check for a valid first and last name.
-        if (TextUtils.isEmpty(lastName)) {
-            edtLastName.setError(getString(R.string.error_field_required));
-            focusView = edtLastName;
-            cancel = true;
-        }
-
-        if (TextUtils.isEmpty(firstName)) {
-            edtFirstName.setError(getString(R.string.error_field_required));
-            focusView = edtFirstName;
-            cancel = true;
-        }
-
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true);
-            registerTask = new UpdateUserTask();
-            registerTask.execute((Void) null);
-        }
-    }
 
     /**
      * Shows the progress UI and hides the login form.
@@ -306,41 +185,6 @@ public class ProfileFragment extends Fragment implements ScreenShotable{
     @Override
     public Bitmap getBitmap() {
         return null;
-    }
-
-    public class UpdateUserTask extends AsyncTask<Void, Void, Boolean> {
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            try {
-                //User.updateUser(id, login, password, firstName, lastName,email);
-            } catch (Exception e) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            registerTask = null;
-            showProgress(false);
-
-            if (success) {
-                ((ProfileFragmentInterface)activity).onUserUpdated();
-            } else {
-
-                //TODO
-                edtPassword.setText("");
-                edtPassword.setError(getString(R.string.error_incorrect_combination));
-                edtPassword.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            registerTask = null;
-            showProgress(false);
-        }
     }
 
     public interface ProfileFragmentInterface {
