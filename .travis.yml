@@ -1,4 +1,9 @@
 language: android
+
+jdk:
+  - oraclejdk7
+  - openjdk7
+
 android:
   components:
     # The BuildTools version used by your project
@@ -7,5 +12,21 @@ android:
     # The SDK version used to compile your project
     - android-21
 
+notifications:
+  email: true
 
-script: sudo ./gradlew build
+before_install:
+    # Disable services enabled by default
+    # http://docs.travis-ci.com/user/database-setup/#MySQL
+    - sudo /etc/init.d/mysql stop
+    - sudo /etc/init.d/postgresql stop
+
+install:
+  # Ensure Gradle wrapper is executable, download wrapper and show version
+  - chmod +x ./gradlew; ls -l gradlew; ./gradlew wrapper -v
+
+before_script:
+  # Ensure signing configuration is present
+  - mv app/gradle.properties.example app/gradle.properties
+
+script: ./gradlew build
