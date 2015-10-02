@@ -10,7 +10,7 @@ android:
     - extra-android-m2repository
     - sys-img-x86-android-22
 
-script: "./gradlew build"
+script: ./gradlew build
 
 notifications:
   email:
