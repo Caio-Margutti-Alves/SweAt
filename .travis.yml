@@ -25,8 +25,5 @@ install:
   # Ensure Gradle wrapper is executable, download wrapper and show version
   - chmod +x ./gradlew; ls -l gradlew; ./gradlew wrapper -v
 
-before_script:
-  # Ensure signing configuration is present
-  - mv app/gradle.properties.example app/gradle.properties
-
-script: ./gradlew build
+script:
+  - ./gradlew build
