@@ -1,0 +1,150 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fontawesometext="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffffff">
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:background="@color/black"
+        android:orientation="horizontal" >
+
+
+        <ImageView
+            android:id="@+id/img_marker_left"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_margin="18dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/map_marker"
+            />
+
+        <com.beardedhen.androidbootstrap.AwesomeTextView
+            android:id="@+id/txt_event"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:text="Event"
+            android:layout_margin="10dp"
+            android:textSize="28sp"
+            android:textColor="@color/black"
+             />
+
+        <ImageView
+            android:id="@+id/img_marker_right"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_margin="18dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/map_marker"
+            />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/profile_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:background="@color/orange_dark"
+        android:orientation="vertical" >
+
+        <com.beardedhen.androidbootstrap.BootstrapCircleThumbnail
+            android:id="@+id/img_profile"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_margin="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_user"
+            android:layout_centerHorizontal="true"
+            />
+
+        <com.beardedhen.androidbootstrap.AwesomeTextView
+            android:id="@+id/txt_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="First Last"
+            android:layout_below="@+id/img_profile"
+            android:textSize="26sp"
+            />
+
+        <com.beardedhen.androidbootstrap.AwesomeTextView
+            android:id="@+id/txt_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_name"
+            android:text="100 years"
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp"
+
+            />
+
+
+    </RelativeLayout>
+
+    <com.beardedhen.androidbootstrap.AwesomeTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description of the Event"
+        android:id="@+id/txt_description"
+        android:layout_below="@+id/profile_container"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="18sp"
+        android:textColor="#ff000000"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_description"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp" >
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:text="Join"
+            android:id="@+id/btn_join"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="10dp"
+
+            android:textColor="#ffffffff"
+
+            app:roundedCorners="true"
+            app:bootstrapBrand="warning"
+            app:bootstrapSize="lg"
+
+            />
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:text="Cancel"
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="30dp"
+
+            android:textColor="#ffffffff"
+
+            app:roundedCorners="true"
+            app:bootstrapBrand="warning"
+            app:bootstrapSize="lg"
+            />
+
+   </LinearLayout>
+
+
+</RelativeLayout>

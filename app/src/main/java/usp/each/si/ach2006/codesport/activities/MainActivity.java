@@ -16,6 +16,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,18 +25,25 @@ import android.widget.LinearLayout;
 
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.plus.Plus;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.codetail.animation.SupportAnimator;
 import io.codetail.animation.ViewAnimationUtils;
 import usp.each.si.ach2006.codesport.R;
+import usp.each.si.ach2006.codesport.SessionManager;
 import usp.each.si.ach2006.codesport.codeUtils.Util;
 import usp.each.si.ach2006.codesport.fragments.MapFragment;
 import usp.each.si.ach2006.codesport.fragments.ProfileFragment;
+import usp.each.si.ach2006.codesport.fragments.UpcomingEventsFragment;
+import usp.each.si.ach2006.codesport.models.event.Event;
 import usp.each.si.ach2006.codesport.models.user.User;
 import yalantis.com.sidemenu.interfaces.Resourceble;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
@@ -46,7 +54,7 @@ import yalantis.com.sidemenu.util.ViewAnimator;
  * Created by caioa_000 on 11/09/2015.
  */
 
-public class MainActivity extends ActionBarActivity implements ViewAnimator.ViewAnimatorListener {
+public class MainActivity extends ActionBarActivity implements GoogleApiClient.OnConnectionFailedListener, ViewAnimator.ViewAnimatorListener {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private List<SlideMenuItem> list = new ArrayList<>();
@@ -56,15 +64,20 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
 
     private BitmapDrawable profilePicture;
 
+    private GoogleApiClient mGoogleApiClient;
+
+    private String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         contentFragment = new MapFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, contentFragment)
                 .commit();
+
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setScrimColor(Color.TRANSPARENT);
         linearLayout = (LinearLayout) findViewById(R.id.left_drawer);
@@ -78,19 +91,43 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         setActionBar();
         createMenuList();
         viewAnimator = new ViewAnimator<>(this, list, contentFragment, drawerLayout, this);
+
+        //mGoogleApiClient = ((SessionManager) this.getApplication()).getGoogleApiClient();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API)
+                .build();
+
+        populate();
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
+        // be available.
+        Log.d(TAG, "onConnectionFailed:" + connectionResult);
+    }
+
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
     }
 
     private void createMenuList() {
         SlideMenuItem menuItem0 = new SlideMenuItem(Util.CLOSE, R.drawable.icn_close);
         list.add(menuItem0);
-        SlideMenuItem menuItem1 = new SlideMenuItem(Util.PROFILE, R.id.google_profile_picture);
+        SlideMenuItem menuItem1 = new SlideMenuItem(Util.MAP, R.drawable.side_menu_map);
         list.add(menuItem1);
-        SlideMenuItem menuItem = new SlideMenuItem(Util.BUILDING, R.drawable.icn_1);
-        list.add(menuItem);
-        SlideMenuItem menuItem2 = new SlideMenuItem(Util.BOOK, R.drawable.icn_2);
+        SlideMenuItem menuItem2 = new SlideMenuItem(Util.CALENDAR,  R.drawable.side_menu_calendar);
         list.add(menuItem2);
-        SlideMenuItem menuItem7 = new SlideMenuItem(Util.MOVIE, R.drawable.icn_7);
-        list.add(menuItem7);
+        SlideMenuItem menuItem3 = new SlideMenuItem(Util.PROFILE,  R.drawable.side_menu_profile);
+        list.add(menuItem3);
+        SlideMenuItem menuItem4 = new SlideMenuItem(Util.INVITE,  R.drawable.side_menu_share);
+        list.add(menuItem4);
+        SlideMenuItem menuItem5 = new SlideMenuItem(Util.LOGOFF, R.drawable.side_menu_logoff);
+        list.add(menuItem5);
     }
 
 
@@ -165,6 +202,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     public ScreenShotable onSwitch(Resourceble slideMenuItem, ScreenShotable fragment, int position) {
         View view = findViewById(R.id.content_frame);
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
+
         SupportAnimator animator = ViewAnimationUtils.createCircularReveal(view, 0, position, 0, finalRadius);
         animator.setInterpolator(new AccelerateInterpolator());
         animator.setDuration(ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION);
@@ -172,21 +210,28 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         findViewById(R.id.content_overlay).setBackgroundDrawable(new BitmapDrawable(getResources(), fragment.getBitmap()));
         animator.start();
 
-        ScreenShotable contentFragment;
+        ScreenShotable contentFragment = fragment;
 
         switch (slideMenuItem.getName()) {
             case Util.CLOSE:
-                return fragment;
-            case Util.BOOK:
-                invite();
-                return fragment;
+                break;
+            case Util.MAP:
+                contentFragment = MapFragment.newInstance("a");
+                break;
+            case Util.CALENDAR:
+                contentFragment = UpcomingEventsFragment.newInstance("a");
+                break;
             case Util.PROFILE:
                 contentFragment = ProfileFragment.newInstance("a");
                 break;
-            case Util.MOVIE:
+            case Util.INVITE:
+                invite();
+                break;
+            case Util.LOGOFF:
                 logout();
+                break;
             default:
-                contentFragment = MapFragment.newInstance("a");
+                contentFragment = null;
         }
 
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, (Fragment) contentFragment).commit();
@@ -268,29 +313,51 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         startActivity(openInChooser);
     }
 
-    protected void logout(){
-        try{
-            if(User.getFacebookId()!=null) {
-                FacebookSdk.sdkInitialize(getApplicationContext());
-                LoginManager.getInstance().logOut();
-                System.out.println("FACEBOOK");
-            }else{
-                GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(this)
-                        .addApi(Plus.API)
-                        .addScope(Plus.SCOPE_PLUS_LOGIN).build();
-                if (mGoogleApiClient.isConnected()) {
-                    Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-                    mGoogleApiClient.disconnect();
-                }
-                System.out.println("GOOGLE");
 
+    protected void logout(){
+        try {
+            FacebookSdk.sdkInitialize(getApplicationContext());
+            LoginManager.getInstance().logOut();
+            Log.d("Facebook Sign Out", "Sign out from Facebook acc.");
+        }catch(Exception e){
+            Log.d("Facebook Sig. Unsuccess", "Failed Signing out from Facebook acc.");
+            Log.e("Error", e.toString());
+        }
+
+        try{
+            if(mGoogleApiClient.isConnected()){
+                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+                Log.d("Google Sign Out", "Sing out of Google Acc. successfull");
             }
-            Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-            startActivity(intent);
-            finish();
+        }catch(Exception e){
+            Log.d("Google Sig. Unsuccess", "Failed Signing out from Google acc.");
+            Log.e("Error", e.toString());
         }
-        catch(Exception e){
-               //Todo
-        }
+
+        SessionManager.dispose();
+
+        Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
+
+    protected void populate(){
+
+        String[] capitals = getResources().getStringArray(R.array.capitals);
+        ArrayList<Event> events = new ArrayList();
+        User user = ((SessionManager) getApplication()).getCurrentUser();
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+
+        for(int i = 0; i < capitals.length; i++){
+            Event event = new Event(dateFormat.format(date).toString(), user);
+            events.add(event);
+        }
+
+        ((SessionManager) getApplication()).setUpcomingEvents(events);
+        //((SessionManager) getApplication()).setAllEvents(events);
+    }
+
+
 }

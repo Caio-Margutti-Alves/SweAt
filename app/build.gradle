@@ -3,11 +3,7 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
-
-    dexOptions {
-        preDexLibraries = false
-    }
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "usp.each.si.ach2006.codesport"
@@ -28,18 +24,16 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
     compile 'com.daimajia.easing:library:1.0.1@aar'
     compile 'com.daimajia.androidanimations:library:1.1.3@aar'
-    compile 'com.beardedhen:androidbootstrap:+'
+    compile 'com.beardedhen:androidbootstrap:2.0.0'
     compile 'com.google.code.gson:gson:2.3.1'
-    compile 'com.github.blackfizz:eazegraph:1.2.2@aar'
     compile 'com.yalantis:sidemenu:1.0'
-    compile 'com.google.android.gms:play-services:8.1.0'
+    compile 'com.google.android.gms:play-services:8.3.0'
+    compile 'com.google.android.gms:play-services-auth:8.3.0'
     compile 'com.facebook.android:facebook-android-sdk:4.5.0'
     compile 'com.github.ozodrukh:CircularReveal:1.1.1@aar'
     compile 'com.felipecsl:gifimageview:1.2.0'
-    compile 'com.google.android.gms:play-services-ads:8.1.0'
-    compile 'com.google.android.gms:play-services-identity:7.8.0'
-    compile 'com.google.android.gms:play-services-gcm:7.8.0'
 }

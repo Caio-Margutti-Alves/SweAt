@@ -91,7 +91,7 @@
     <string name="prompt_last_name">Last Name</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_age">Age</string>
-    <string name="prompt_gender">Male, Female or free to be yourself?</string>
+    <string name="prompt_gender">M, F or ?</string>
 
 
     <!-- Camera -->
@@ -123,7 +123,7 @@
         This is an ad unit ID for an interstitial test ad. Replace with your own interstitial ad unit id.
         For more information, see https://support.google.com/admob/answer/3052638
     <!- -->
-    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-4459617104149726/1416052298</string>
 
 
 </resources>

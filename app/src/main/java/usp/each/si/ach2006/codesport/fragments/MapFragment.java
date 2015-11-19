@@ -4,12 +4,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
+
+import android.graphics.BitmapFactory;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.ResultReceiver;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,29 +21,33 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.BootstrapCircleThumbnail;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Random;
 
 import usp.each.si.ach2006.codesport.R;
+import usp.each.si.ach2006.codesport.SessionManager;
 import usp.each.si.ach2006.codesport.codeUtils.Util;
-import usp.each.si.ach2006.codesport.dialog.ArrayAdapterWithIcon;
-import usp.each.si.ach2006.codesport.gps.Constants;
-import usp.each.si.ach2006.codesport.gps.FetchAddressIntentService;
-import usp.each.si.ach2006.codesport.trail.TrailList;
+import usp.each.si.ach2006.codesport.codeUtils.dialog.ArrayAdapterWithIcon;
+import usp.each.si.ach2006.codesport.codeUtils.dialog.EventDialog;
+import usp.each.si.ach2006.codesport.codeUtils.gps.Constants;
+import usp.each.si.ach2006.codesport.codeUtils.gps.FetchAddressIntentService;
+import usp.each.si.ach2006.codesport.models.event.Event;
+import usp.each.si.ach2006.codesport.models.user.User;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
 /**
@@ -63,27 +66,26 @@ public class MapFragment extends Fragment implements ScreenShotable,
     protected Location mLastLocation;
     protected boolean mAddressRequested;
     protected String mAddressOutput;
-    private AddressResultReceiver mResultReceiver;
+    //private AddressResultReceiver mResultReceiver;
     protected TextView mLocationAddressTextView;
 
     private MapView mapView;
-    private ImageButton imgb_mark;
-    private ImageButton imgb_maps_style;
-    private ImageButton imgb_trails_search;
+    private BootstrapCircleThumbnail imgb_mark;
+    private BootstrapCircleThumbnail imgb_maps_style;
     private ProgressBar mProgressBar;
-    private LinkedList<Polyline> polylines;
+
+    EventDialog event_dialog;
 
     protected double lat = 0;
     protected double lng = 0;
 
+    private String[] options;
+    private String[] description;
+    private Integer[] icons;
 
-    ImageButton.OnClickListener lstnMark = new Button.OnClickListener() {
+
+    ImageButton.OnClickListener lst_create_mark = new Button.OnClickListener() {
         public void onClick(View view) {
-            final String[] options = getResources().getStringArray(R.array.mark_option);
-            final String[] description = getResources().getStringArray(R.array.mark_descriptions);
-
-            final Integer[] icons = new Integer[] {R.drawable.map_map_marker, R.drawable.animal_sign,
-                    R.drawable.sign_warning, R.drawable.cone, R.drawable.skull, R.drawable.bubble };
 
             ListAdapter adapter = new ArrayAdapterWithIcon(getActivity(), options, icons);
 
@@ -93,56 +95,47 @@ public class MapFragment extends Fragment implements ScreenShotable,
             builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                   Marker marker;
-
+                   Marker marker = mapView.getMap().addMarker(new MarkerOptions()
+                           .position(new LatLng(lat, lng))
+                           .title(String.valueOf(options[which]))
+                           .snippet(String.valueOf(which)));
 
                     switch (which) {
-                        case Util.MENU_VIEW_POINT:
-                            marker = mapView.getMap().addMarker(new MarkerOptions()
-                                    .position(new LatLng(lat, lng))
-                                    .title(String.valueOf(options[which]))
-                                    .snippet("Population: 4,137,400")
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_map_marker)));
+                        case Util.MENU_SOCCER:
+                            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_soccer));
                             break;
-                        case Util.MENU_ANIMAL:
-                            marker = mapView.getMap().addMarker(new MarkerOptions()
-                                    .position(new LatLng(0, 0))
-                                    .title(String.valueOf(options[which]))
-                                    .snippet("Population: 4,137,400")
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.animal_sign)));
+                        case Util.MENU_BASKET:
+                            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_basket));
                             break;
-                        case Util.MENU_WARNING:
-                            marker = mapView.getMap().addMarker(new MarkerOptions()
-                                    .position(new LatLng(0, 0))
-                                    .title(String.valueOf(options[which]))
-                                    .snippet("Population: 4,137,400")
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.sign_warning)));
+                        case Util.MENU_VOLLEY:
+                            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_volley));
                             break;
-                        case Util.MENU_CLOSURE:
-                            marker = mapView.getMap().addMarker(new MarkerOptions()
-                                    .position(new LatLng(0, 0))
-                                    .title(String.valueOf(options[which]))
-                                    .snippet("Population: 4,137,400")
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.cone)));
+                        case Util.MENU_TENNIS:
+                            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_tennis));
                             break;
-                        case Util.MENU_EMERGENCY:
-                            marker = mapView.getMap().addMarker(new MarkerOptions()
-                                    .position(new LatLng(0, 0))
-                                    .title(String.valueOf(options[which]))
-                                    .snippet("Population: 4,137,400")
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.skull)));
+                        case Util.MENU_BASEBALL:
+                            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_baseball));
                             break;
-                        case Util.MENU_QUESTION:
-                            marker = mapView.getMap().addMarker(new MarkerOptions()
-                                    .position(new LatLng(0, 0))
-                                    .title(String.valueOf(options[which]))
-                                    .snippet("Population: 4,137,400")
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.bubble)));
+                        case Util.MENU_FOOTBALL:
+                            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_football));
                             break;
                     }
                 }
             });
             builder.show();
+        }
+    };
+
+
+    GoogleMap.OnMarkerClickListener lst_mark = new GoogleMap.OnMarkerClickListener() {
+
+        @Override
+        public boolean onMarkerClick(Marker marker) {
+
+            User user = ((SessionManager) getActivity().getApplication()).getCurrentUser();
+
+            event_dialog.showDialog(getActivity(), marker , user, "Just a sample for testing the dialog!");
+            return true;
         }
     };
 
@@ -176,38 +169,7 @@ public class MapFragment extends Fragment implements ScreenShotable,
         }
     };
 
-    ImageButton.OnClickListener lstnTrailSearch = new Button.OnClickListener() {
-        public void onClick(View view) {
-            final String[] options = getResources().getStringArray(R.array.trails_options);
 
-            final AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-
-            builder.setTitle(getResources().getString(R.string.dialog_trails_options));
-            builder.setItems(options, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-                        case Util.MENU_0:
-                            setUpTrail(null,0);
-                            break;
-                        case Util.MENU_1:
-                            setUpTrail(null,1);
-                            break;
-                        case Util.MENU_2:
-                            setUpTrail(null,2);
-                            break;
-                        case Util.MENU_3:
-                            setUpTrail(null,3);
-                            break;
-                        case Util.MENU_4:
-                            setUpTrail(null,4);
-                            break;
-                    }
-                }
-            });
-            builder.show();
-        }
-    };
 
     public static MapFragment newInstance(String text){
         MapFragment mFragment = new MapFragment();
@@ -217,83 +179,17 @@ public class MapFragment extends Fragment implements ScreenShotable,
         return mFragment;
     }
 
-    // requires list of format (lat, lon, lat, lon, lat, lon....)
-    private void setUpTrail(TrailList trails, int index) {
-        //Trail trail = new Trail();
-        //trail = new Trail(new LinkedList(Arrays.asList(getResources().getStringArray(R.array.trail_jones_valley_corridor))));
-        if(polylines.size()!=0) {
-            for (Polyline pol : polylines) {
-                pol.remove();
-            }
-        }
-        //FIX IT FOR WORKING WITH COLLECTIONS!
-        if(index == 0){
-            for(int i = 0; i < 4; i++) {
-                String[] trail = null;
-                if (i == 0)
-                    trail = getResources().getStringArray(R.array.trail_jones_valley_corridor);
-                else if (i == 1)
-                    trail = getResources().getStringArray(R.array.trail_shades_creek_corridor);
-                else if (i == 2)
-                    trail = getResources().getStringArray(R.array.trail_turkey_creek_corridor);
-                else if (i == 3)
-                    trail = getResources().getStringArray(R.array.trail_cahaba_river_corridor);
-                //for (Trail trail : trails.getAllTrails()) {
-                int R = (int) (Math.random() * 256);
-                int G = (int) (Math.random() * 256);
-                int B = (int) (Math.random() * 256);
-                int color = Color.argb(255, R, G, B);
-
-                    /*Random random = new Random();
-                    final float hue = random.nextFloat();
-                    final float saturation = 0.9f;//1.0 for brilliant, 0.0 for dull
-                    final float luminance = 1.0f; //1.0 for brighter, 0.0 for black
-                    Color col = new Color(color);
-                    col.getHSBColor(hue, saturation, luminance);*/
-
-                Polyline line = mapView.getMap().addPolyline(new PolylineOptions().width(7).color(color));
-                List<LatLng> coordinates = new ArrayList<LatLng>();
-
-                for (String coordinate : trail) {
-                    String[] coord = coordinate.split(" ");
-                    coordinates.add(new LatLng(Double.parseDouble(coord[0]), Double.parseDouble(coord[1])));
-                }
-                line.setPoints(coordinates);
-                polylines.add(line);
-                // }
-            }
-        }else{
-            String[] trail = null;
-            if (index == 1)
-                trail = getResources().getStringArray(R.array.trail_jones_valley_corridor);
-            else if (index == 2)
-                trail = getResources().getStringArray(R.array.trail_shades_creek_corridor);
-            else if (index == 3)
-                trail = getResources().getStringArray(R.array.trail_turkey_creek_corridor);
-            else if (index == 4)
-                trail = getResources().getStringArray(R.array.trail_cahaba_river_corridor);
-            int R = (int) (Math.random() * 256);
-            int G = (int) (Math.random() * 256);
-            int B = (int) (Math.random() * 256);
-            int color = Color.argb(255, R, G, B);
-
-            Polyline line = mapView.getMap().addPolyline(new PolylineOptions().width(7).color(color));
-            List<LatLng> coordinates = new ArrayList<LatLng>();
-
-            for (String coordinate : trail) {
-                String[] coord = coordinate.split(" ");
-                coordinates.add(new LatLng(Double.parseDouble(coord[0]), Double.parseDouble(coord[1])));
-            }
-            line.setPoints(coordinates);
-            polylines.add(line);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
-        polylines = new LinkedList<Polyline>();
+        options = getResources().getStringArray(R.array.mark_option);
+        description = getResources().getStringArray(R.array.mark_descriptions);
+        icons = new Integer[] {R.drawable.icon_soccer, R.drawable.icon_basket,
+                R.drawable.icon_volley, R.drawable.icon_tennis, R.drawable.icon_baseball, R.drawable.icon_football };
+
+        event_dialog = new EventDialog();
 
         // Gets the MapView from the XML layout and creates it
         mapView = (MapView) view.findViewById(R.id.map);
@@ -302,16 +198,13 @@ public class MapFragment extends Fragment implements ScreenShotable,
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
-        imgb_mark = (ImageButton) view.findViewById(R.id.imgb_mark);
-        imgb_mark.setOnClickListener(lstnMark);
+        imgb_mark = (BootstrapCircleThumbnail) view.findViewById(R.id.imgb_mark);
+        imgb_mark.setOnClickListener(lst_create_mark);
 
-        imgb_maps_style = (ImageButton) view.findViewById(R.id.imgb_maps_style);
+        imgb_maps_style = (BootstrapCircleThumbnail) view.findViewById(R.id.imgb_maps_style);
         imgb_maps_style.setOnClickListener(lstnMapsStyle);
 
-        imgb_trails_search = (ImageButton) view.findViewById(R.id.imgb_trail_search);
-        imgb_trails_search.setOnClickListener(lstnTrailSearch);
-
-        mResultReceiver = new AddressResultReceiver(new Handler());
+        //mResultReceiver = new AddressResultReceiver(new Handler());
 
         // Set defaults, then update using values stored in the Bundle.
         mAddressRequested = false;
@@ -326,9 +219,9 @@ public class MapFragment extends Fragment implements ScreenShotable,
 
         MapsInitializer.initialize(getActivity());
 
-        TrailList trails = new TrailList();
-        trails.startTrailList(getActivity());
-        setUpTrail(trails, 0);
+        setUpCapitalsMarkers();
+
+        mapView.getMap().setOnMarkerClickListener(lst_mark);
 
         return view;
     }
@@ -459,7 +352,7 @@ public class MapFragment extends Fragment implements ScreenShotable,
         Intent intent = new Intent(getActivity(), FetchAddressIntentService.class);
 
         // Pass the result receiver as an extra to the service.
-        intent.putExtra(Constants.RECEIVER, mResultReceiver);
+        //intent.putExtra(Constants.RECEIVER, mResultReceiver);
 
         // Pass the location data as an extra to the service.
         intent.putExtra(Constants.LOCATION_DATA_EXTRA, mLastLocation);
@@ -536,14 +429,14 @@ public class MapFragment extends Fragment implements ScreenShotable,
     /**
      * Receiver for data sent from FetchAddressIntentService.
      */
+
+    /*
     class AddressResultReceiver extends ResultReceiver {
         public AddressResultReceiver(Handler handler) {
             super(handler);
         }
 
-        /**
-         *  Receives data sent from FetchAddressIntentService and updates the UI in MainActivity.
-         */
+
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
 
@@ -560,5 +453,61 @@ public class MapFragment extends Fragment implements ScreenShotable,
             mAddressRequested = false;
             updateUIWidgets();
         }
+    }*/
+
+
+    // requires list of format (lat, lon, lat, lon, lat, lon....)
+    private void setUpCapitalsMarkers() {
+        String[] capitals = getResources().getStringArray(R.array.capitals);
+        ArrayList<Event> events = ((SessionManager) getActivity().getApplication()).getUpcomingEvents();
+
+        int max = getResources().getStringArray(R.array.mark_option).length;
+        int min = 0;
+        Random random = new Random();
+
+        for(int i = 0; i < capitals.length; i++){
+
+            String[] coord = capitals[i].trim().split(" ");
+
+            int randomNum = random.nextInt((max - min));
+
+            Bitmap bitmap;
+
+            switch (randomNum) {
+                case Util.MENU_SOCCER:
+                    bitmap = BitmapFactory.decodeResource(getResources(),(R.drawable.icon_soccer));
+                    break;
+                case Util.MENU_BASKET:
+                    bitmap = BitmapFactory.decodeResource(getResources(), (R.drawable.icon_basket));
+                    break;
+                case Util.MENU_VOLLEY:
+                    bitmap = BitmapFactory.decodeResource(getResources(), (R.drawable.icon_volley));
+                    break;
+                case Util.MENU_TENNIS:
+                    bitmap = BitmapFactory.decodeResource(getResources(), (R.drawable.icon_tennis));
+                    break;
+                case Util.MENU_BASEBALL:
+                    bitmap = BitmapFactory.decodeResource(getResources(), (R.drawable.icon_baseball));
+                    break;
+                case Util.MENU_FOOTBALL:
+                    bitmap = BitmapFactory.decodeResource(getResources(), (R.drawable.icon_football));
+                    break;
+                default:
+                    bitmap = BitmapFactory.decodeResource(getResources(), (R.drawable.map_marker));
+            }
+
+            Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth()/2,bitmap.getHeight()/2, false);
+
+            Marker marker = mapView.getMap().addMarker(new MarkerOptions()
+                    .position(new LatLng(Double.parseDouble(coord[0]), Double.parseDouble(coord[1])))
+                    .title(options[randomNum])
+                    .snippet(String.valueOf(randomNum))
+                    .icon(BitmapDescriptorFactory.fromBitmap(resizedBitmap)));
+
+            events.get(i).setMarker(marker);
+
+        }
+
     }
+
 }

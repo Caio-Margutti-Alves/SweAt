@@ -1,46 +1,30 @@
 package usp.each.si.ach2006.codesport.models.user;
 
+import android.util.Log;
+
 import java.util.Calendar;
 import java.util.Date;
 
-public abstract class User {
+public class User {
 
-	private static String id;
-	private static String login;
-    private static String password;
-	private static String firstName;
-	private static String lastName;
-	private static String email;
-    private static Date dob;
-    private static int age;
+	private String id;
+	private String firstName;
+	private String lastName;
+	private String email;
+    private Date dob;
+    private int age;
+    private String gender;
 
+    //-----------------------Facebook--------------------------------//
+    private String facebookPictureUrl;
+    private String facebookId;
+    private String facebookMobileToken;
 
-    //Facebook Stuff
-    private static String facebookPictureUrl = "https://graph.facebook.com/100002560657734/picture?type=large";
-    private static String facebookId = "100002560657734"; //Tirar
-    private static String mobileToken;
-
-    //Google Plus Stuff
-    private static String googlePlusPictureUrl = "https://lh3.googleusercontent.com/-EH91vYdCng4/AAAAAAAAAAI/AAAAAAAAAMw/7XmDfnMZTGM/s120-c/photo.jpg" ;
+    private String defaultFacebookPictureUrl = "https://graph.facebook.com/";
+    private String defaultFacebookId = "100002560657734"; //Tirar
 
 
-	public User() {
-
-	}
-
-    /*public static boolean newUser(String facebookId, String login, String password,
-                                  String mobileToken, String firstName, String lastName,
-                                  String email, String gender, String dob) {
-
-        //return JsonUser.newUser(facebookId, login, password, mobileToken, firstName,
-         //       lastName, email, gender, dob);
-
-    }*/
-
-    //-----------------------Quey User Facebook--------------------------------//
-
-	
-	//SOMENTE PARA TESTES - RETIRAR NO FINAL
+    //SOMENTE PARA TESTES - RETIRAR NO FINAL
 	/*public static boolean getUserById(String id) {
 		return JsonUser.getUserById(id);
 	}
@@ -49,133 +33,181 @@ public abstract class User {
         return JsonUser.getUserByFacebookId(facebookId);
     }*/
 
-    public static String getFacebookId() {
+    public String getFacebookId() {
         return facebookId;
     }
 
-    public static void setFacebookId(String facebookId) {
-        User.facebookId = facebookId;
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
     }
 
-    public static String getMobileToken() {
-        return mobileToken;
+    public String getFacebookMobileToken() {
+        return facebookMobileToken;
     }
 
-    public static String getFacebookPictureUrl() {
+    public void setFacebookMobileToken(String facebookMobileToken) {
+        this.facebookMobileToken = facebookMobileToken;
+    }
+
+    public String getFacebookPictureUrl() {
         return facebookPictureUrl;
     }
 
-    public static void setFacebookPictureUrl(String facebookPictureUrl) {
-        User.facebookPictureUrl = facebookPictureUrl;
+    public void setFacebookPictureUrl() {
+        this.facebookPictureUrl = defaultFacebookPictureUrl + this.facebookId + "/picture?type=large";
     }
 
-    //-----------------------Quey User GooglePlus--------------------------------//
+
+    //-----------------------GooglePlus--------------------------------//
+
+    private String googlePlusId;
+    private String googlePlusPictureUrl;
+    private String googlePlusMobileToken;
+
+    private String defaultGooglePlusPictureUrl = "https://lh3.googleusercontent.com/-EH91vYdCng4/AAAAAAAAAAI/AAAAAAAAAMw/7XmDfnMZTGM/s120-c/photo.jpg" ;
 
     /*public static boolean getUserByGoogleId(String facebookId) {
         return JsonUser.getUserByFacebookId(facebookId);
     }*/
 
-    public static String getGooglePlusPictureUrl() {
+    public String getGooglePlusPictureUrl() {
         return googlePlusPictureUrl;
     }
 
-    public static void setGooglePlusPictureUrl(String googlePlusPictureUrl) {
-        User.googlePlusPictureUrl = googlePlusPictureUrl;
+    public void setGooglePlusPictureUrl(String googlePlusPictureUrl) {
+        this.googlePlusPictureUrl = googlePlusPictureUrl;
     }
+
+    public String getGooglePlusMobileToken() {
+        return googlePlusMobileToken;
+    }
+
+    public void setGooglePlusMobileToken(String googlePlusMobileToken) {
+        this.googlePlusMobileToken = googlePlusMobileToken;
+    }
+
+    public String getGooglePlusId() {
+        return googlePlusId;
+    }
+
+    public void setGooglePlusId(String googlePlusId) {
+        this.googlePlusId = googlePlusId;
+    }
+
+    //-----------------------------------------------------------------
+
+	public User() {
+
+	}
+
+    /*public static boolean newUser(String facebookId, String login, String password,
+                                  String facebookMobileToken, String firstName, String lastName,
+                                  String email, String gender, String dob) {
+
+        //return JsonUser.newUser(facebookId, login, password, facebookMobileToken, firstName,
+         //       lastName, email, gender, dob);
+
+    }*/
+
 
 //--------------------------------------------------------//
 
+    public String getId() {
+        return id;
+    }
 
-    public static String getEmail() {
-		return email;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public static void setEmail(String email) {
-		User.email = email;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public static String getLogin() {
-		return login;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public static void setLogin(String login) {
-		User.login = login;
-	}
-	
-	public static String getId() {
-		return id;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public static void setId(String id) {
-		User.id = id;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public static String getFirstName() {
-		return firstName;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public static void setFirstName(String firstName) {
-		User.firstName = firstName;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public static String getLastName() {
-		return lastName;
-	}
-
-	public static void setLastName(String lastName) {
-		User.lastName = lastName;
-	}
-
-    public static Date getDob() {
+    public Date getDob() {
         return dob;
     }
 
-    public static void setDob(String dob) {
-        User.dob = new Date(dob);
+    public void setDob(String dob) {
+        this.dob = new Date(dob);
         calculateAge();
     }
 
-    public static int getAge() {
+
+    public int getAge() {
         return age;
     }
 
-    public static void setAge(int age) {
-        User.age = age;
+    public void setAge(int age) {
+        this.age = age;
     }
 
-    public static void calculateAge() {
+    public void calculateAge() {
+        try {
+            Calendar today = Calendar.getInstance();
+            Calendar birthDate = Calendar.getInstance();
 
-        Calendar today = Calendar.getInstance();
-        Calendar birthDate = Calendar.getInstance();
+            int age = 0;
 
-        int age = 0;
+            birthDate.setTime(getDob());
+            if (birthDate.after(today)) {
+                throw new IllegalArgumentException("Can't be born in the future");
+            }
 
-        birthDate.setTime(getDob());
-        if (birthDate.after(today)) {
-            throw new IllegalArgumentException("Can't be born in the future");
+            age = today.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR);
+
+            // If birth date is greater than todays date (after 2 days adjustment of
+            // leap year) then decrement age one year
+            if ((birthDate.get(Calendar.DAY_OF_YEAR)
+                    - today.get(Calendar.DAY_OF_YEAR) > 3)
+                    || (birthDate.get(Calendar.MONTH) > today.get(Calendar.MONTH))) {
+                age--;
+
+                // If birth date and todays date are of same month and birth day of
+                // month is greater than todays day of month then decrement age
+            } else if ((birthDate.get(Calendar.MONTH) == today.get(Calendar.MONTH))
+                    && (birthDate.get(Calendar.DAY_OF_MONTH) > today
+                    .get(Calendar.DAY_OF_MONTH))) {
+                age--;
+            }
+
+            setAge(age);
         }
-
-        age = today.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR);
-
-        // If birth date is greater than todays date (after 2 days adjustment of
-        // leap year) then decrement age one year
-        if ((birthDate.get(Calendar.DAY_OF_YEAR)
-                - today.get(Calendar.DAY_OF_YEAR) > 3)
-                || (birthDate.get(Calendar.MONTH) > today.get(Calendar.MONTH))) {
-            age--;
-
-            // If birth date and todays date are of same month and birth day of
-            // month is greater than todays day of month then decrement age
-        } else if ((birthDate.get(Calendar.MONTH) == today.get(Calendar.MONTH))
-                && (birthDate.get(Calendar.DAY_OF_MONTH) > today
-                .get(Calendar.DAY_OF_MONTH))) {
-            age--;
+        catch(Exception e ){
+            Log.e("Error", "Could not calculate age");
+            e.printStackTrace();
         }
-
-        setAge(age);
     }
 
-//    public static boolean updateUser(String id, String login, String password,
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    //    public static boolean updateUser(String id, String login, String password,
 //                                  String firstName, String lastName,
 //                                  String email) {
 //

@@ -1,15 +1,10 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    style="@style/LoginFormContainer" >
-
     <LinearLayout
-        android:id="@+id/container"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:layout_marginTop="30dp"
+        android:background="@color/orange_light"
+        style="@style/LoginFormContainer"  >
 
         <!-- Login progress -->
 
@@ -39,37 +34,30 @@
             android:orientation="vertical" >
 
             <!-- Circle Thumbnail with Image -->
-            <ImageView
-                android:id="@+id/imgvProfile"
+            <com.beardedhen.androidbootstrap.BootstrapCircleThumbnail
+                android:id="@+id/img_profile"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:gravity="center"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="4dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/default_user" />
+                android:src="@drawable/default_user"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.1"
+                android:layout_weight="0.5"
                 android:orientation="vertical" >
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    style="?android:attr/buttonBarStyle"
-                    android:layout_marginBottom="4dp" >
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="0.1"
+                    android:layout_weight="0.2"
                     android:orientation="horizontal" >
 
-                    <com.beardedhen.androidbootstrap.FontAwesomeText
+                    <com.beardedhen.androidbootstrap.AwesomeTextView
                         android:id="@+id/firstName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -80,7 +68,7 @@
                         android:layout_margin="4dp"
                         android:layout_weight="0.5" />
 
-                    <com.beardedhen.androidbootstrap.FontAwesomeText
+                    <com.beardedhen.androidbootstrap.AwesomeTextView
                         android:id="@+id/lastName"
                         android:layout_width="match_parent"
                         android:text="@string/prompt_last_name"
@@ -92,44 +80,54 @@
                         android:textSize="24sp"/>
                 </LinearLayout>
 
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="0.4"
-                    android:orientation="vertical" >
+                    android:layout_weight="0.2"
+                    android:orientation="horizontal" >
 
-                    <com.beardedhen.androidbootstrap.FontAwesomeText
-                        android:id="@+id/email"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:textSize="20sp"
-                        android:text="@string/prompt_email"
-                        android:minHeight="?android:attr/listPreferredItemHeight"
-                        android:singleLine="true" />
-
-                    <com.beardedhen.androidbootstrap.FontAwesomeText
-                        android:id="@+id/edtAge"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:text="@string/prompt_age"
-                        android:minHeight="?android:attr/listPreferredItemHeight"
-                        android:singleLine="true" />
-
-                    <com.beardedhen.androidbootstrap.FontAwesomeText
+                    <com.beardedhen.androidbootstrap.AwesomeTextView
                         android:id="@+id/edtGender"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
                         android:textSize="20sp"
                         android:gravity="center_vertical|center_horizontal"
                         android:text="@string/prompt_gender"
                         android:minHeight="?android:attr/listPreferredItemHeight"
                         android:singleLine="true" />
 
+
+                    <com.beardedhen.androidbootstrap.AwesomeTextView
+                        android:id="@+id/edtAge"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        android:textSize="20sp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="@string/prompt_age"
+                        android:minHeight="?android:attr/listPreferredItemHeight"
+                        android:singleLine="true" />
+
+
                 </LinearLayout>
+
+
+                    <com.beardedhen.androidbootstrap.AwesomeTextView
+                        android:id="@+id/email"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.2"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:textSize="20sp"
+                        android:text="@string/prompt_email"
+                        android:minHeight="?android:attr/listPreferredItemHeight"
+                        android:singleLine="true" />
+
+
+                </LinearLayout>
+
             </LinearLayout>
+
         </LinearLayout>
-    </LinearLayout>
-</ScrollView>

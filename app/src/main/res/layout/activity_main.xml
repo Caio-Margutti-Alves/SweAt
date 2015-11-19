@@ -3,18 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.facebook.login.widget.ProfilePictureView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/facebook_profile_picture"
-        android:visibility="invisible"/>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/google_profile_picture"
-        android:visibility="invisible"/>
-
     <io.codetail.widget.RevealFrameLayout
         android:id="@+id/container_frame"
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -54,7 +42,7 @@
             android:orientation="vertical"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:divider="@android:color/transparent"
+            android:divider="@color/white"
             android:dividerHeight="0dp"
             android:background="@android:color/transparent">
             <!-- Layout of Drawer -->

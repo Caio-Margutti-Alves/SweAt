@@ -8,44 +8,32 @@
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/imgb_mark"
+        android:layout_alignEnd="@+id/imgb_mark" />
 
-    <ImageButton
-        android:minHeight="?android:attr/listPreferredItemHeight"
-        android:minWidth="?android:attr/listPreferredItemHeight"
+    <com.beardedhen.androidbootstrap.BootstrapCircleThumbnail
         android:id="@+id/imgb_mark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:padding="30dp"
+        android:scaleType="centerCrop"
         android:layout_alignParentBottom="true"
-        android:background="@android:color/transparent"
         android:layout_centerHorizontal="true"
         android:layout_alignParentRight="true"
-
+        android:layout_margin="5dp"
         android:src="@drawable/map_marker" />
 
-    <ImageButton
-        android:minHeight="?android:attr/listPreferredItemHeight"
-        android:minWidth="?android:attr/listPreferredItemHeight"
+    <com.beardedhen.androidbootstrap.BootstrapCircleThumbnail
         android:id="@+id/imgb_maps_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_toLeftOf="@id/imgb_mark"
-        android:background="@android:color/transparent"
+        android:background="@color/orange_dark"
+        android:layout_margin="5dp"
         android:src="@drawable/map" />
-
-    <ImageButton
-        android:minHeight="?android:attr/listPreferredItemHeight"
-        android:minWidth="?android:attr/listPreferredItemHeight"
-        android:background="@android:color/transparent"
-        android:id="@+id/imgb_trail_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/search"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/imgb_maps_style"
-        android:layout_toStartOf="@+id/imgb_maps_style" />
 
     <ProgressBar
         android:id="@+id/progress_bar"

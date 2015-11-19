@@ -5,6 +5,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -15,12 +16,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.GregorianCalendar;
+
 import usp.each.si.ach2006.codesport.R;
 
 public class AdActivity extends FragmentActivity {
-    // Remove the below line after defining your own ad unit ID.
-    private static final String TOAST_TEXT = "Test ads are being shown. "
-            + "To show live ads, replace the ad unit ID in res/values/strings.xml with your own ad unit ID.";
 
     private static final int START_LEVEL = 1;
     private int mLevel;
@@ -37,8 +37,6 @@ public class AdActivity extends FragmentActivity {
         mInterstitialAd = newInterstitialAd();
         loadInterstitial();
 
-        // Toasts the test ad message on the screen. Remove this after defining your own ad unit ID.
-        Toast.makeText(this, TOAST_TEXT, Toast.LENGTH_LONG).show();
     }
 
 
@@ -74,7 +72,7 @@ public class AdActivity extends FragmentActivity {
 
             @Override
             public void onAdFailedToLoad(int errorCode) {
-                mNextLevelButton.setEnabled(true);
+
             }
 
             @Override
@@ -100,7 +98,11 @@ public class AdActivity extends FragmentActivity {
     private void loadInterstitial() {
         // Disable the next level button and load the ad.
         AdRequest adRequest = new AdRequest.Builder()
-                .setRequestAgent("android_studio:ad_template").build();
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .setRequestAgent("SweAt App")
+                .setGender(AdRequest.GENDER_MALE)
+                .setBirthday(new GregorianCalendar(1994, 6, 6).getTime())
+                .build();
         mInterstitialAd.loadAd(adRequest);
     }
 

@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,16 +18,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.beardedhen.androidbootstrap.BootstrapButton;
-import com.beardedhen.androidbootstrap.FontAwesomeText;
+import com.beardedhen.androidbootstrap.AwesomeTextView;
 
 import java.io.InputStream;
 
 import usp.each.si.ach2006.codesport.R;
+import usp.each.si.ach2006.codesport.SessionManager;
+import usp.each.si.ach2006.codesport.codeUtils.LoadProfileImage;
 import usp.each.si.ach2006.codesport.codeUtils.Util;
 import usp.each.si.ach2006.codesport.models.user.User;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
@@ -55,9 +53,11 @@ public class ProfileFragment extends Fragment implements ScreenShotable{
     private View loginFormView;
     private View loginStatusView;
 
-    private FontAwesomeText edtFirstName;
-    private FontAwesomeText edtLastName;
-    private FontAwesomeText edtEmail;
+    private AwesomeTextView edtFirstName;
+    private AwesomeTextView edtLastName;
+    private AwesomeTextView edtEmail;
+    private AwesomeTextView edtAge;
+    private AwesomeTextView edtGender;
 
     public static ProfileFragment newInstance(String text){
         ProfileFragment mFragment = new ProfileFragment();
@@ -72,48 +72,46 @@ public class ProfileFragment extends Fragment implements ScreenShotable{
 
 		View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 		super.onCreate(savedInstanceState);
-        edtFirstName = (FontAwesomeText) rootView.findViewById(R.id.firstName);
-        edtLastName = (FontAwesomeText) rootView.findViewById(R.id.lastName);
-        edtEmail = (FontAwesomeText) rootView.findViewById(R.id.email);
+
+        edtFirstName = (AwesomeTextView) rootView.findViewById(R.id.firstName);
+        edtLastName = (AwesomeTextView) rootView.findViewById(R.id.lastName);
+        edtEmail = (AwesomeTextView) rootView.findViewById(R.id.email);
+        edtAge= (AwesomeTextView) rootView.findViewById(R.id.edtAge);
+        edtGender = (AwesomeTextView) rootView.findViewById(R.id.edtGender);
 
         loginFormView = rootView.findViewById(R.id.login_form);
         loginStatusView = rootView.findViewById(R.id.login_status);
 
-
-        imgvProfile = (ImageView) rootView.findViewById(R.id.imgvProfile);
+        imgvProfile = (ImageView) rootView.findViewById(R.id.img_profile);
 
 		try{
-            edtFirstName.setText(User.getFirstName());
-			edtLastName.setText(User.getLastName());
-			//edtAge.setText(String.valueOf(User.getAge()));
-			edtEmail.setText(User.getEmail());
+            User user = ((SessionManager) getActivity().getApplication()).getCurrentUser();
 
-            if(User.getFacebookId()!= null){
-                new LoadProfileImage(imgvProfile).execute(User.getFacebookPictureUrl());
+            if(user.getFacebookId()!= null){
+                new LoadProfileImage(imgvProfile).execute(user.getFacebookPictureUrl());
             }else{
-                new LoadProfileImage(imgvProfile).execute(User.getGooglePlusPictureUrl());
+                new LoadProfileImage(imgvProfile).execute(user.getGooglePlusPictureUrl());
             }
-			//profilePicture.setProfileId(User.getFacebookId());
 
+            edtFirstName.setText(user.getFirstName());
+            edtLastName.setText(user.getLastName());
+            edtEmail.setText(user.getEmail());
+            edtAge.setText(String.valueOf(user.getAge()) + " years");
+            edtGender.setText(user.getGender());
 			
 		}catch(Exception ex){
-            edtFirstName.setText("Default");
-			edtLastName.setText("Name");
+            Log.e("ProfileFragment", ex.getMessage());
+            ex.printStackTrace();
+            //edtFirstName.setText("Default");
+			//edtLastName.setText("Name");
 			//edtAge.setText("Default Age");
-			edtEmail.setText("Default Email");
+			//edtEmail.setText("Default Email");
 			//profilePicture.setProfileId(User.getFacebookId());
 		}
-		
-		
-		rootView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT ));		
+
+		rootView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		return rootView;
 	}
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.activity = activity;
-    }
 
 
 	@Override
@@ -185,38 +183,6 @@ public class ProfileFragment extends Fragment implements ScreenShotable{
     @Override
     public Bitmap getBitmap() {
         return null;
-    }
-
-    public interface ProfileFragmentInterface {
-        public void onUserUpdated();
-    }
-
-    /**
-     * Background Async task to load user profile picture from url
-     * */
-    private class LoadProfileImage extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public LoadProfileImage(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
     }
 }
 
