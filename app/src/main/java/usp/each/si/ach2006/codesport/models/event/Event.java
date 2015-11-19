@@ -36,16 +36,16 @@ public class Event {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public User getIdOwner() {
+    public User getOwner() {
         return owner;
     }
 
-    public void setIdOwner(User owner) {
+    public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public Marker getMarker() {
