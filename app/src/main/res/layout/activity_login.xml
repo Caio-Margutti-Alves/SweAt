@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/orange_light">
+    android:background="@color/black">
 
     <!-- Login progress -->
 
@@ -56,7 +56,6 @@
                 android:paddingRight="4dp"
                 android:paddingBottom="4dp"
                 android:layout_weight="0.5"
-                android:background="@color/orange_dark"
                 >
 
                 <com.facebook.login.widget.LoginButton
@@ -75,7 +74,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.5"
                 android:paddingBottom="4dp"
-                android:background="@color/orange_dark"
+
                 />
 
         </LinearLayout>

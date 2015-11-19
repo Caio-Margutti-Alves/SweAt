@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:minHeight="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"/>
+            android:background="@color/white"/>
 
     </io.codetail.widget.RevealFrameLayout>
 
@@ -42,9 +42,13 @@
             android:orientation="vertical"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:divider="@color/white"
+            android:gravity="center_vertical"
+            android:divider="@color/black"
             android:dividerHeight="0dp"
-            android:background="@android:color/transparent">
+            android:background="@android:color/transparent"
+
+            >
+
             <!-- Layout of Drawer -->
         </LinearLayout>
 

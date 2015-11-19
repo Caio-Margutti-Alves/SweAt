@@ -2,73 +2,46 @@ package usp.each.si.ach2006.codesport.codeUtils.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.AwesomeTextView;
 import com.beardedhen.androidbootstrap.BootstrapButton;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 
-import java.io.InputStream;
-
 import usp.each.si.ach2006.codesport.R;
-import usp.each.si.ach2006.codesport.codeUtils.LoadProfileImage;
 import usp.each.si.ach2006.codesport.codeUtils.Util;
-import usp.each.si.ach2006.codesport.models.user.User;
 
 /**
  * Created by caioa_000 on 18/11/2015.
  */
-public class EventDialog {
+public class TimeDialog {
 
     private Dialog dialog;
 
-    public void showDialog(Activity activity, Marker marker, User user, String description){
+    public void showDialog(Activity activity, Marker marker){
 
         dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
-        dialog.setContentView(R.layout.dialog_information_event);
+        dialog.setContentView(R.layout.dialog_pick_time);
 
         AwesomeTextView txt_event = (AwesomeTextView) dialog.findViewById(R.id.txt_event);
-        AwesomeTextView txt_description = (AwesomeTextView) dialog.findViewById(R.id.txt_description);
 
-        BootstrapButton btn_join = (BootstrapButton) dialog.findViewById(R.id.btn_join);
+        BootstrapButton btn_join = (BootstrapButton) dialog.findViewById(R.id.btn_ok);
         BootstrapButton btn_cancel = (BootstrapButton) dialog.findViewById(R.id.btn_cancel);
-
-        ImageView img_profile =  (ImageView) dialog.findViewById(R.id.img_profile);
 
         ImageView img_marker_left =  (ImageView) dialog.findViewById(R.id.img_marker_left);
         AwesomeTextView txt_x =  (AwesomeTextView) dialog.findViewById(R.id.txt_x);
-
-        AwesomeTextView txt_name = (AwesomeTextView) dialog.findViewById(R.id.txt_name);
-        AwesomeTextView txt_age = (AwesomeTextView) dialog.findViewById(R.id.txt_age);
 
         btn_join.setOnClickListener(lst_join);
         btn_cancel.setOnClickListener(lst_cancel);
 
         txt_x.setOnClickListener(lst_text_x);
 
-        txt_name.setText(user.getFirstName() + " " + user.getLastName());
-        txt_age.setText(String.valueOf(user.getAge()) + " years");
-
         txt_event.setText(marker.getTitle());
-        txt_description.setText(description);
-
-        if(user.getFacebookId()!= null){
-            new LoadProfileImage(img_profile).execute(user.getFacebookPictureUrl());
-        }else{
-            new LoadProfileImage(img_profile).execute(user.getGooglePlusPictureUrl());
-        }
 
         int which = Integer.parseInt(marker.getSnippet());
 
@@ -92,7 +65,6 @@ public class EventDialog {
                 img_marker_left.setImageResource(R.drawable.icon_football);
                 break;
         }
-
 
         dialog.show();
     }

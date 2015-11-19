@@ -1,0 +1,103 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffffff">
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:background="@color/black"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/img_marker_left"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/map_marker"
+            />
+
+        <com.beardedhen.androidbootstrap.AwesomeTextView
+            android:id="@+id/txt_event"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:text="EVENT"
+            android:layout_margin="10dp"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            />
+
+        <com.beardedhen.androidbootstrap.AwesomeTextView
+            android:id="@+id/txt_x"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:layout_height="match_parent"
+            android:text="X"
+            android:textSize="24sp"
+            />
+
+    </LinearLayout>
+
+            <TimePicker
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/timePicker"
+                android:layout_gravity="center_horizontal"
+                android:layout_below="@+id/header"
+                android:headerBackground="@color/orange_light"
+
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/timePicker"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp" >
+
+                <com.beardedhen.androidbootstrap.BootstrapButton
+                    android:text="OK"
+                    android:id="@+id/btn_ok"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="10dp"
+
+                    android:textColor="#ffffffff"
+
+                    app:roundedCorners="true"
+                    app:bootstrapBrand="warning"
+                    app:bootstrapSize="lg"
+
+                    />
+
+                <com.beardedhen.androidbootstrap.BootstrapButton
+                    android:text="Cancel"
+                    android:id="@+id/btn_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="30dp"
+
+                    android:textColor="#ffffffff"
+
+                    app:roundedCorners="true"
+                    app:bootstrapBrand="warning"
+                    app:bootstrapSize="lg"
+                    />
+
+            </LinearLayout>
+
+</RelativeLayout>

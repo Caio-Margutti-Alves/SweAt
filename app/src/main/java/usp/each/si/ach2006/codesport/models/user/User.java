@@ -100,6 +100,16 @@ public class User {
 
 	}
 
+    public User(String id, String firstName, String lastName, String email, Date dob, int age, String gender) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.dob = dob;
+        this.age = age;
+        this.gender = gender;
+    }
+
     /*public static boolean newUser(String facebookId, String login, String password,
                                   String facebookMobileToken, String firstName, String lastName,
                                   String email, String gender, String dob) {
@@ -152,7 +162,6 @@ public class User {
         this.dob = new Date(dob);
         calculateAge();
     }
-
 
     public int getAge() {
         return age;

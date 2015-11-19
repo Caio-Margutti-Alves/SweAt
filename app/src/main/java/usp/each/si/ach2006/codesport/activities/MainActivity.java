@@ -1,5 +1,6 @@
 package usp.each.si.ach2006.codesport.activities;
 
+import android.app.ActionBar;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.LabeledIntent;
@@ -133,9 +134,15 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.O
 
     private void setActionBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
+
+        getSupportActionBar().setIcon(R.drawable.logo_text_orange);
+        //getSupportActionBar().setCol
+
         drawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 drawerLayout,         /* DrawerLayout object */

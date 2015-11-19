@@ -18,8 +18,8 @@
         <ImageView
             android:id="@+id/img_marker_left"
             android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_margin="18dp"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
             android:layout_height="match_parent"
             android:src="@drawable/map_marker"
             />
@@ -29,19 +29,20 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="5"
-            android:text="Event"
+            android:text="EVENT"
             android:layout_margin="10dp"
-            android:textSize="28sp"
+            android:textSize="24sp"
             android:textColor="@color/black"
              />
 
-        <ImageView
-            android:id="@+id/img_marker_right"
+        <com.beardedhen.androidbootstrap.AwesomeTextView
+            android:id="@+id/txt_x"
             android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_margin="18dp"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
             android:layout_height="match_parent"
-            android:src="@drawable/map_marker"
+            android:text="X"
+            android:textSize="24sp"
             />
 
     </LinearLayout>
@@ -51,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/header"
-        android:background="@color/orange_dark"
+        android:background="@color/orange_light"
         android:orientation="vertical" >
 
         <com.beardedhen.androidbootstrap.BootstrapCircleThumbnail

@@ -3,12 +3,12 @@
 
     <!-- Mark Options -->
     <string-array name="mark_option">
-        <item>Soccer</item>
-        <item>Basketball</item>
-        <item>Volley</item>
-        <item>Tennis</item>
-        <item>Baseball</item>
-        <item>Football</item>
+        <item>SOCCER</item>
+        <item>BASKETBALL</item>
+        <item>VOLLEY</item>
+        <item>TENNIS</item>
+        <item>BASEBALL</item>
+        <item>FOOTBALL</item>
     </string-array>
 
     <!-- Mark Descriptions -->

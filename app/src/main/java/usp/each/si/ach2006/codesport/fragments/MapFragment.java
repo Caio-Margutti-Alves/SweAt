@@ -43,7 +43,9 @@ import usp.each.si.ach2006.codesport.R;
 import usp.each.si.ach2006.codesport.SessionManager;
 import usp.each.si.ach2006.codesport.codeUtils.Util;
 import usp.each.si.ach2006.codesport.codeUtils.dialog.ArrayAdapterWithIcon;
+import usp.each.si.ach2006.codesport.codeUtils.dialog.DateDialog;
 import usp.each.si.ach2006.codesport.codeUtils.dialog.EventDialog;
+import usp.each.si.ach2006.codesport.codeUtils.dialog.TimeDialog;
 import usp.each.si.ach2006.codesport.codeUtils.gps.Constants;
 import usp.each.si.ach2006.codesport.codeUtils.gps.FetchAddressIntentService;
 import usp.each.si.ach2006.codesport.models.event.Event;
@@ -75,6 +77,8 @@ public class MapFragment extends Fragment implements ScreenShotable,
     private ProgressBar mProgressBar;
 
     EventDialog event_dialog;
+    DateDialog date_dialog;
+   // TimeDialog time_dialog;
 
     protected double lat = 0;
     protected double lng = 0;
@@ -120,6 +124,8 @@ public class MapFragment extends Fragment implements ScreenShotable,
                             marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_football));
                             break;
                     }
+
+                    date_dialog.showDialog(getActivity(), marker);
                 }
             });
             builder.show();
@@ -190,6 +196,8 @@ public class MapFragment extends Fragment implements ScreenShotable,
                 R.drawable.icon_volley, R.drawable.icon_tennis, R.drawable.icon_baseball, R.drawable.icon_football };
 
         event_dialog = new EventDialog();
+        date_dialog = new DateDialog();
+        //time_dialog = new TimeDialog();
 
         // Gets the MapView from the XML layout and creates it
         mapView = (MapView) view.findViewById(R.id.map);

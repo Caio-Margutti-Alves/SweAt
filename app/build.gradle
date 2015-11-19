@@ -5,12 +5,28 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
 
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
+
+    dexOptions {
+        jumboMode true
+    }
+
     defaultConfig {
         applicationId "usp.each.si.ach2006.codesport"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
     }
     buildTypes {
         release {
@@ -22,18 +38,20 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.nineoldandroids:library:2.4.0'
+
+    // Unit testing dependencies
+    androidTestCompile "org.robolectric:robolectric:3.0"
+    androidTestCompile 'junit:junit:4.12'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
     compile 'com.daimajia.easing:library:1.0.1@aar'
     compile 'com.daimajia.androidanimations:library:1.1.3@aar'
     compile 'com.beardedhen:androidbootstrap:2.0.0'
-    compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.yalantis:sidemenu:1.0'
     compile 'com.google.android.gms:play-services:8.3.0'
     compile 'com.google.android.gms:play-services-auth:8.3.0'
     compile 'com.facebook.android:facebook-android-sdk:4.5.0'
     compile 'com.github.ozodrukh:CircularReveal:1.1.1@aar'
-    compile 'com.felipecsl:gifimageview:1.2.0'
+    compile 'com.google.android.gms:play-services-ads:8.3.0'
 }
